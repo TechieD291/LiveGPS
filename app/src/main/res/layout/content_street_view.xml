@@ -22,7 +22,7 @@
             <LinearLayout
                 style="@style/LinearViewTheamForLocationScreen">
 
-                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                <com.gonext.live.gps.navigation.utils.view.CustomTextView
                     android:id="@+id/tvLocation"
                     style="@style/TextviewTheamForRouteScreen"
                     android:text= "Select Location" />
