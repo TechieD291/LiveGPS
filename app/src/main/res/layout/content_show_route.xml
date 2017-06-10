@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.gonext.livegps.routenavigation.activities.ShowRouteActivity"
+    tools:showIn="@layout/activity_show_route">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/llBottom">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            map:mapType="normal"
+            tools:context="com.gonext.livegps.routenavigation.activities.MapActivity"
+            tools:showIn="@layout/activity_map" />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:paddingTop="@dimen/padding_medium_small"
+        android:paddingBottom="@dimen/padding_medium_small"
+        android:weightSum="100"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/llCar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="33">
+
+            <ImageButton
+                android:id="@+id/ibCar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small_tiny"
+                android:src="@drawable/ic_car"
+                android:background="@android:color/transparent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llWalk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="33">
+
+            <ImageButton
+                android:id="@+id/ibWalk"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_small_tiny"
+                android:layout_marginRight="@dimen/margin_small"
+                android:src="@drawable/ic_walk"
+                android:background="@android:color/transparent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBicycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="33">
+
+            <ImageButton
+                android:id="@+id/ibCycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_small_tiny"
+                android:layout_marginRight="@dimen/margin_small"
+                android:src="@drawable/ic_cycle"
+                android:background= "@android:color/transparent"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

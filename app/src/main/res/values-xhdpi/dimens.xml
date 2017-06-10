@@ -1,0 +1,65 @@
+<resources>
+
+    <!-- Default screen paddings,as per the Android Design guidelines. -->
+    <dimen name="padding_tiny">4dp</dimen>
+    <dimen name="padding_small_tiny">6dp</dimen>
+    <dimen name="padding_small">9dp</dimen>
+    <dimen name="padding_medium_small">11dp</dimen>
+    <dimen name="padding_medium">14dp</dimen>
+    <dimen name="padding_medium_large">17dp</dimen>
+    <dimen name="padding_large">19dp</dimen>
+    <dimen name="padding_xlarge">23dp</dimen>
+    <dimen name="padding_xxlarge">28dp</dimen>
+    <dimen name="padding_xxxlarge">33dp</dimen>
+    <dimen name="padding_xxxxlarge">38dp</dimen>
+    <dimen name="padding_largest">43dp</dimen>
+    <dimen name="padding_xxxlargest">90dp</dimen>
+    <dimen name="mediumPaddingTop">45dp</dimen>
+
+    <dimen name="elevation_tiny">4dp</dimen>
+
+    <!--Default screen margins,as per the Android Design guidelines.-->
+    <dimen name="margin_tiny">4dp</dimen>
+    <dimen name="margin_small_tiny">6dp</dimen>
+    <dimen name="margin_small">9dp</dimen>
+    <dimen name="margin_medium_small">11dp</dimen>
+    <dimen name="margin_medium">14dp</dimen>
+    <dimen name="margin_medium_large">17dp</dimen>
+    <dimen name="margin_large">19dp</dimen>
+    <dimen name="margin_xlarge">35dp</dimen>
+    <dimen name="margin_xxlarge">28dp</dimen>
+    <dimen name="margin_xxxlarge">31dp</dimen>
+    <dimen name="margin_xxxxlarge">20dp</dimen>
+    <dimen name="margin_largest">38dp</dimen>
+    <dimen name="margin_xlargest">43dp</dimen>
+    <dimen name="margin_x1largest">48dp</dimen>
+    <dimen name="margin_x2largest">53dp</dimen>
+    <dimen name="margin_xxlargest">63dp</dimen>
+    <dimen name="margin_xx1largest">68dp</dimen>
+    <dimen name="margin_xx2largest">73dp</dimen>
+    <dimen name="margin_xxxlargest">90dp</dimen>
+    <dimen name="margin_xxxxlargest">134dp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!--Default text sizes,as per the Android Design guidelines.-->
+    <dimen name="text_size_tiny">8sp</dimen>
+    <dimen name="text_size_small">10sp</dimen>
+    <dimen name="text_size_medium">11sp</dimen>
+    <dimen name="text_size_medium_large">13sp</dimen>
+    <dimen name="text_size_large">16sp</dimen>
+    <dimen name="text_size_xlarge">18sp</dimen>
+    <dimen name="text_size_xxlarge">20sp</dimen>
+    <dimen name="text_size_xxxlarge">21sp</dimen>
+    <dimen name="text_size_largest">23sp</dimen>
+    <dimen name="text_size_xlargest">25sp</dimen>
+    <dimen name="text_size_xxlargest">26sp</dimen>
+    <dimen name="text_size">14sp</dimen>
+    <dimen name="largeFontSize">25sp</dimen>
+
+    <dimen name="layout_height_xxxlarge">188dp</dimen>
+    <dimen name="layout_height_xxxxlarge">280dp</dimen>
+
+</resources>
