@@ -51,5 +51,7 @@
     <string name="near_by_me">Near By Me</string>
     <string name="near_by_location">Near By Location</string>
     <string name="title_activity_category_list">CategoryListActivity</string>
+    <string name="enter_source">Enter Source</string>
+    <string name="enter_destination">Enter Destination</string>
 
 </resources>
