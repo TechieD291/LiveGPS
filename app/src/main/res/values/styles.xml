@@ -9,6 +9,22 @@
 
     </style>
 
+    <style name="HorizintalView">
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_width">match_parent</item>
+
+    </style>
+
+
+    <style name="ViewOfRoute" parent="HorizintalView">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="TextviewTheamForRouteScreen" parent="TextviewTheamForLocationScreen">
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <style name="DialogTheme" parent="android:Theme.DeviceDefault.Light.Dialog">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:textStyle">normal</item>
