@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gonext.livegps.routenavigation">
+    package="com.gonext.live.gps.navigation">
 
     <permission
         android:name="com.gonext.livegps.routenavigation.permission.MAPS_RECEIVE"
@@ -77,7 +77,7 @@
             android:label="@string/title_activity_category_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".activities.SplashActivity"
             android:label="@string/title_activity_splash"

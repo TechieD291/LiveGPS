@@ -1,4 +1,4 @@
-package com.gonext.livegps.routenavigation.activities;
+package com.gonext.live.gps.navigation.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.gonext.livegps.routenavigation.R;
-import com.gonext.livegps.routenavigation.utils.view.CustomTextView;
+import com.gonext.live.gps.navigation.R;
+import com.gonext.live.gps.navigation.utils.view.CustomTextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -42,7 +42,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.gonext.livegps.routenavigation.utils.Utils.hasPermissions;
+import static com.gonext.live.gps.navigation.utils.Utils.hasPermissions;
+
 
 public class StreetViewActivity extends BaseActivity
         implements StreetViewPanorama.OnStreetViewPanoramaChangeListener,
@@ -150,10 +151,10 @@ public class StreetViewActivity extends BaseActivity
         }
     }
 
-     /* @param lattitude  Double latitude value
-     * @param longditude Double longitude value
-     * @return Address with city, state and country also saves latitude in lat variable and longitude in lng variable
-     */
+    /* @param lattitude  Double latitude value
+    * @param longditude Double longitude value
+    * @return Address with city, state and country also saves latitude in lat variable and longitude in lng variable
+    */
     private String geocoderAddressfind(Double lattitude, Double longditude) {
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -186,8 +187,7 @@ public class StreetViewActivity extends BaseActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case GET_LOCATION_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
                     final Place place = PlaceAutocomplete.getPlace(this, data);
@@ -196,9 +196,7 @@ public class StreetViewActivity extends BaseActivity
 
                     tvLocation.setText(geocoderAddressfind(location.latitude, location.longitude));
                     streetViewPanorama.setPosition(location);
-                }
-                else
-                {
+                } else {
                     getDeviceLocation();
                     tvLocation.setText(geocoderAddressfind(location.latitude, location.longitude));
 
@@ -259,8 +257,7 @@ public class StreetViewActivity extends BaseActivity
     }
 
     @OnClick(R.id.tvLocation)
-    public void onViewClicked()
-    {
+    public void onViewClicked() {
         try {
             Intent intent =
                     new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
