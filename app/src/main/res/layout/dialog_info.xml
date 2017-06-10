@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5.0dip"
+    android:layout_marginRight="5.0dip"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/dialog_main_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_dialog_background">
+
+        <RelativeLayout
+            android:id="@+id/dialog_header_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="16.0dip"
+            android:layout_marginTop="5.0dip">
+
+            <TextView
+                android:id="@+id/dialog_txt_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="5.0dip"
+                android:paddingTop="5.0dip"
+                android:text="Internet connection"
+                android:textColor="@color/dialog_header_color"
+                android:textSize="22.0sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dialog_message_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_header_layout"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="16.0dip"
+            android:layout_marginTop="5.0dip">
+
+            <TextView
+                android:id="@+id/dialog_txt_message"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Please check your internet connection."
+                android:textColor="@color/dialog_message_color"
+                android:textSize="18.0sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dialog_button_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_below="@+id/dialog_message_layout"
+            android:layout_marginBottom="1.0dip"
+            android:layout_marginTop="5.0sp">
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="wrap_content"
+                android:layout_height="40.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16.0dip"
+                android:background="@drawable/app_dialog_btn_selector"
+                android:padding="8.0dip"
+                android:text="OK"
+                android:textColor="@color/dialog_button_text_color"
+                android:textSize="20.0sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -2,9 +2,11 @@ package com.gonext.livegps.routenavigation.activities;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.gonext.livegps.routenavigation.R;
+import com.gonext.livegps.routenavigation.sqllite.SqlLiteDbHelper;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +40,7 @@ public class MoreOptionsActivity extends BaseActivity {
     ImageView ivPrivacyPolicy;
     @BindView(R.id.ivRate)
     ImageView ivRate;
+    SqlLiteDbHelper dbHelper = new SqlLiteDbHelper(this);
 
     private double source_lat, source_lng;
     private double dest_lat, dest_lng;
@@ -46,7 +52,7 @@ public class MoreOptionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_options);
         ButterKnife.bind(this);
-
+        initDatabase();
         Intent i = getIntent();
         source_lat = i.getDoubleExtra("source_Latitude", 0.0);
         source_lng = i.getDoubleExtra("source_Longitude", 0.0);
@@ -61,6 +67,24 @@ public class MoreOptionsActivity extends BaseActivity {
         address = i.getStringExtra("title");
         flag = i.getBooleanExtra("place_selection", false);
 
+    }
+
+    private void initDatabase() {
+        dbHelper = new SqlLiteDbHelper(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (!prefs.getBoolean("firstTime", false)) {
+            SharedPreferences.Editor editor1 = prefs.edit();
+            editor1.putBoolean("firstTime", true);
+            editor1.commit();
+
+            try {
+
+                dbHelper.CopyDataBaseFromAsset();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            dbHelper.openDataBase();
+        }
     }
 
     @OnClick({R.id.ivShowRoute, R.id.ivStreetView, R.id.ivBack, R.id.ivRate})

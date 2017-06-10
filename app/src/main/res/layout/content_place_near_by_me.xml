@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wallpaper"
+    android:gravity="center"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.gonext.livegps.routenavigation.activities.PlaceNearByMeActivity"
+    tools:showIn="@layout/activity_place_near_by_me">
+
+    <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+        android:id="@+id/tvNearByMe"
+        android:layout_width="wrap_content"
+        android:layout_height="70.0dip"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/background"
+        android:drawableLeft="@drawable/nearbyme"
+        android:drawablePadding="@dimen/padding_xxlarge"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_xxxlargest"
+        android:text="@string/near_by_me"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_xlarge"
+        app:custom_font="avenir_book" />
+
+    <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+        android:id="@+id/tvNearByLocation"
+        android:layout_width="fill_parent"
+        android:layout_height="70.0dip"
+        android:layout_below="@+id/tvNearByMe"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="@drawable/background"
+        android:drawableLeft="@drawable/nearbylocation"
+        android:drawablePadding="@dimen/padding_xxlarge"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_xxxlargest"
+        android:text="@string/near_by_location"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_xlarge"
+        app:custom_font="avenir_book" />
+
+</RelativeLayout>

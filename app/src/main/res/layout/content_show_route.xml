@@ -23,8 +23,7 @@
 
                 <com.gonext.livegps.routenavigation.utils.view.CustomTextView
                     android:id="@+id/tvSource"
-                    style="@style/TextviewTheamForRouteScreen"
-                    android:text="@string/enter_source" />
+                    style="@style/TextviewTheamForRouteScreen" />
 
 
             </LinearLayout>
@@ -35,8 +34,7 @@
 
                 <com.gonext.livegps.routenavigation.utils.view.CustomTextView
                     android:id="@+id/tvDestination"
-                    style="@style/TextviewTheamForRouteScreen"
-                    android:text="@string/enter_destination" />
+                    style="@style/TextviewTheamForRouteScreen" />
 
             </LinearLayout>
 

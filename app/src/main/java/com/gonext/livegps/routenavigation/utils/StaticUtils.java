@@ -44,6 +44,17 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class StaticUtils {
 
+    public static boolean isNetworkAvailable(Activity activity) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Method to check internet connection.
      *

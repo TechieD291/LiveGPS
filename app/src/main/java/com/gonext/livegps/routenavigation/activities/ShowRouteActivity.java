@@ -20,6 +20,7 @@ import com.gonext.livegps.routenavigation.models.Route;
 import com.gonext.livegps.routenavigation.models.RouteExample;
 import com.gonext.livegps.routenavigation.models.Step;
 import com.gonext.livegps.routenavigation.utils.ApiUtils;
+import com.gonext.livegps.routenavigation.utils.view.CustomTextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -69,6 +70,10 @@ public class ShowRouteActivity extends BaseActivity implements
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private static final int DEFAULT_ZOOM = 15;
+    @BindView(R.id.tvSource)
+    CustomTextView tvSource;
+    @BindView(R.id.tvDestination)
+    CustomTextView tvDestination;
 
     private boolean mLocationPermissionGranted;
 
@@ -134,7 +139,7 @@ public class ShowRouteActivity extends BaseActivity implements
 
     }
 
-    @OnClick({R.id.ibCar, R.id.ibWalk, R.id.ibCycle})
+    @OnClick({R.id.ibCar, R.id.ibWalk, R.id.ibCycle, R.id.tvSource, R.id.tvDestination})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ibCar:
@@ -167,6 +172,13 @@ public class ShowRouteActivity extends BaseActivity implements
                 ibWalk.setImageResource(R.drawable.ic_walk);
                 drawPath(source, destination);
                 break;
+            case R.id.tvSource:
+
+                break;
+            case R.id.tvDestination:
+
+                break;
+
         }
     }
 
@@ -392,4 +404,5 @@ public class ShowRouteActivity extends BaseActivity implements
         Intent backIntent = new Intent(ShowRouteActivity.this, MoreOptionsActivity.class);
         startActivity(backIntent);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.gonext.livegps.routenavigation.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,7 +8,9 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 
 import com.gonext.livegps.routenavigation.R;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -107,6 +110,19 @@ public class PopUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void displayNetoworkDialog(Activity activity) {
+        final Dialog dialog = new Dialog(activity);
+        dialog.setContentView(R.layout.dialog_info);
+        Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     /**
