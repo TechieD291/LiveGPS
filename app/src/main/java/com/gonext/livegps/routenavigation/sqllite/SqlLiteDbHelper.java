@@ -27,7 +27,7 @@ public class SqlLiteDbHelper extends SQLiteOpenHelper {
     // All Static variables
     // Database Version
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_PATH = "/data/data/com.place.nearbyme/databases/";
+    private static final String DATABASE_PATH = "/data/data/com.gonext.livegps.routenavigation/databases/";
     // Database Name
     private static final String DATABASE_NAME = "NearByMe";
     // Contacts table name

@@ -150,6 +150,7 @@ public class PlaceNearByMeActivity extends BaseActivity implements LocationListe
     }
 
     private void pickOtherLocation(int requestCOde) {
+
         try {
             PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
             Intent intent = intentBuilder.build(PlaceNearByMeActivity.this);

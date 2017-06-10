@@ -142,8 +142,6 @@ public class ShowRouteActivity extends BaseActivity implements
         setContentView(R.layout.activity_show_route);
         ButterKnife.bind(this);
 
-        getDeviceLocation();
-        strSource = geocoderAddressfind(source.latitude, source.longitude);
 
         tvSource.setText(strSource);
 
@@ -186,13 +184,15 @@ public class ShowRouteActivity extends BaseActivity implements
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
-
+        getDeviceLocation();
         googleMap.clear();
 
         googleMap.addMarker(new MarkerOptions().position(source));
         options.position(source);
         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         googleMap.addMarker(options);
+
+        strSource = geocoderAddressfind(source.latitude, source.longitude);
 
         // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destination, DEFAULT_ZOOM));
 
@@ -244,13 +244,10 @@ public class ShowRouteActivity extends BaseActivity implements
 
                     source_dest_flag = source_flag && dest_flag;
 
-                    if (source_dest_flag)
-                    {
+                    if (source_dest_flag) {
                         googleMap.clear();
                         drawPath(source, destination);
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(this, "Please select destination...", Toast.LENGTH_SHORT).show();
                     }
 
@@ -286,18 +283,14 @@ public class ShowRouteActivity extends BaseActivity implements
 
                     source_dest_flag = source_flag && dest_flag;
 
-                    if (source_dest_flag)
-                    {
+                    if (source_dest_flag) {
                         llBottom.setVisibility(View.VISIBLE);
                         drawPath(source, destination);
-                    }
-                    else
-                    {
+                    } else {
                         llBottom.setVisibility(View.GONE);
                     }
 
-                }
-                else {
+                } else {
                     dest_flag = false;
 
                     llBottom.setVisibility(View.GONE);
@@ -316,8 +309,7 @@ public class ShowRouteActivity extends BaseActivity implements
 
     @Override
     public void onBackPressed() {
-        Intent backIntent = new Intent(ShowRouteActivity.this, MoreOptionsActivity.class);
-        startActivity(backIntent);
+        super.onBackPressed();
     }
 
     @OnClick({R.id.tvSource, R.id.tvDestination, R.id.ibCar, R.id.ibWalk, R.id.ibCycle})
@@ -527,8 +519,7 @@ public class ShowRouteActivity extends BaseActivity implements
         return poly;
     }
 
-    private void drawPath(LatLng source, LatLng destination)
-    {
+    private void drawPath(LatLng source, LatLng destination) {
 
         // Checks, whether start and end locations are captured
         if (source != null) {

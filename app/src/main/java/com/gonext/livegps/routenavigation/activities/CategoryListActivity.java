@@ -123,7 +123,7 @@ public class CategoryListActivity extends AppCompatActivity implements CategoryL
 
     private void shareToMap(String name) {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps/search/" + name + "/@" + lat + "," + lon + " ,15z"));
+                Uri.parse("https://www.google.com/maps/search/" + name + "/@" + lat + "," + lon + " ,15z"));
         startActivity(intent);
     }
 }

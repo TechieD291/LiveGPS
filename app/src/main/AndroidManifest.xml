@@ -49,11 +49,11 @@
             android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            </activity>
+        </activity>
         <activity
             android:name=".activities.ShowRouteActivity"
             android:label="@string/title_activity_show_route"
@@ -67,11 +67,22 @@
         <activity
             android:name=".activities.PlaceNearByMeActivity"
             android:label="@string/title_activity_place_near_by_me"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.LocationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.PrivacyPolicy"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CategoryListActivity"
             android:label="@string/title_activity_category_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
     </application>
 
 </manifest>
