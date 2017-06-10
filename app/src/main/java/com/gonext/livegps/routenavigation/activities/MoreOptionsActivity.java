@@ -76,22 +76,22 @@ public class MoreOptionsActivity extends BaseActivity {
     @OnClick({R.id.llShowRoute, R.id.llStreetView, R.id.llPlaceNearByMe, R.id.llMyLocation, R.id.llPrivacyPolicy, R.id.llRate})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ivShowRoute:
+            case R.id.llShowRoute:
                 senIntent(ShowRouteActivity.class.getName());
                 break;
-            case R.id.ivStreetView:
+            case R.id.llStreetView:
                 senIntent(StreetViewActivity.class.getName());
                 break;
-            case R.id.ivPlaceNearByMe:
+            case R.id.llPlaceNearByMe:
                 senIntent(PlaceNearByMeActivity.class.getName());
                 break;
-            case R.id.ivMyLocation:
+            case R.id.llMyLocation:
                 senIntent(LocationActivity.class.getName());
                 break;
-            case R.id.ivPrivacyPolicy:
+            case R.id.llPrivacyPolicy:
                 senIntent(PrivacyPolicy.class.getName());
                 break;
-            case R.id.ivRate:
+            case R.id.llRate:
                 StaticUtils.rateapp(getApplicationContext());
                 break;
         }
