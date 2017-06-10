@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -33,7 +35,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -83,6 +84,8 @@ public class ShowRouteActivity extends BaseActivity implements
     LinearLayout llBicycle;
     @BindView(R.id.llBottom)
     LinearLayout llBottom;
+    @BindView(R.id.ivMap)
+    ImageView ivMap;
 
     private static final String TAG = ShowRouteActivity.class.getSimpleName();
 
@@ -111,8 +114,8 @@ public class ShowRouteActivity extends BaseActivity implements
     private final int DEFAULT_ZOOM = 15;
 
     //String for getAddress method
-    Double lattitude;
-    Double longditude;
+    Double latitude;
+    Double longitude;
 
     String address, city, country, state;
     String strSource = "";
@@ -206,8 +209,7 @@ public class ShowRouteActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case GET_SOURCE_REQUEST_CODE:
-                if (resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
                     final Place place = PlaceAutocomplete.getPlace(this, data);
 
                     source = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
@@ -216,8 +218,7 @@ public class ShowRouteActivity extends BaseActivity implements
 
                     googleMap.clear();
 
-                    if(dest_flag)
-                    {
+                    if (dest_flag) {
                         llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                         ibCar.setImageResource(R.drawable.ic_car_selected);
 
@@ -225,42 +226,33 @@ public class ShowRouteActivity extends BaseActivity implements
                         addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
                         addMarkerToMap(destination, BitmapDescriptorFactory.HUE_GREEN);
 
-                    }
-                    else
-                    {
+                    } else {
                         googleMap.clear();
                         tvDestination.setText("");
                         addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
                     }
 
 
-
                     source_dest_flag = source_flag && dest_flag;
 
-                    if (source_dest_flag)
-                    {
+                    if (source_dest_flag) {
                         drawPath(source, destination);
                         builder.include(source);
                         builder.include(destination);
 
                         LatLngBounds bounds = builder.build();
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, DEFAULT_ZOOM));
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(this, "Please select destination...", Toast.LENGTH_SHORT).show();
                     }
 
 
-                }
-                else
-                {
+                } else {
                     getDeviceLocation();
                     strSource = geocoderAddressfind(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
                     tvSource.setText(strSource);
 
-                    if(dest_flag)
-                    {
+                    if (dest_flag) {
                         llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                         ibCar.setImageResource(R.drawable.ic_car_selected);
 
@@ -268,9 +260,7 @@ public class ShowRouteActivity extends BaseActivity implements
                         addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
                         addMarkerToMap(destination, BitmapDescriptorFactory.HUE_GREEN);
 
-                    }
-                    else
-                    {
+                    } else {
                         googleMap.clear();
                         tvDestination.setText("");
                         addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
@@ -279,8 +269,7 @@ public class ShowRouteActivity extends BaseActivity implements
                 }
                 break;
             case GET_DESTINATION_REQUEST_CODE:
-                if (resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
                     dest_flag = true;
 
                     final Place place = PlaceAutocomplete.getPlace(this, data);
@@ -297,8 +286,7 @@ public class ShowRouteActivity extends BaseActivity implements
 
                     source_dest_flag = source_flag && dest_flag;
 
-                    if (source_dest_flag)
-                    {
+                    if (source_dest_flag) {
                         llBottom.setVisibility(View.VISIBLE);
                         drawPath(source, destination);
 
@@ -307,15 +295,11 @@ public class ShowRouteActivity extends BaseActivity implements
                         LatLngBounds bounds = builder.build();
 
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, DEFAULT_ZOOM));
-                    }
-                    else
-                    {
+                    } else {
                         llBottom.setVisibility(View.GONE);
                     }
 
-                }
-                else
-                {
+                } else {
                     dest_flag = false;
 
                     llBottom.setVisibility(View.GONE);
@@ -335,11 +319,10 @@ public class ShowRouteActivity extends BaseActivity implements
 
     @Override
     public void onBackPressed() {
-        Intent backIntent = new Intent(ShowRouteActivity.this, MoreOptionsActivity.class);
-        startActivity(backIntent);
+        finish();
     }
 
-    @OnClick({R.id.tvSource, R.id.tvDestination, R.id.ibCar, R.id.ibWalk, R.id.ibCycle})
+    @OnClick({R.id.tvSource, R.id.tvDestination, R.id.ibCar, R.id.ibWalk, R.id.ibCycle, R.id.ivMap})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvSource:
@@ -408,6 +391,11 @@ public class ShowRouteActivity extends BaseActivity implements
                 drawPath(source, destination);
 
                 break;
+
+            case R.id.ivMap:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + source.latitude + "," + source.longitude + "&daddr=" + destination.latitude + "," + destination.longitude));
+                startActivity(intent);
+                break;
         }
     }
 
@@ -430,8 +418,7 @@ public class ShowRouteActivity extends BaseActivity implements
 
         }
 
-        if (mLocationPermissionGranted)
-        {
+        if (mLocationPermissionGranted) {
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(this,
@@ -443,9 +430,7 @@ public class ShowRouteActivity extends BaseActivity implements
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             source = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             googleMap.clear();
-        }
-        else
-        {
+        } else {
 
         }
 
@@ -455,33 +440,6 @@ public class ShowRouteActivity extends BaseActivity implements
             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
 
         }
-
-        /*else if (mLastKnownLocation != null)
-        {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(mLastKnownLocation.getLatitude(),
-                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-
-            String address = getCompleteAddressString(mLastKnownLocation.getLatitude(),
-                    mLastKnownLocation.getLongitude());
-
-            googleMap.clear();
-
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()))
-                    .title(address)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-
-            mCurrLocationMarker = googleMap.addMarker(markerOptions);
-            mCurrLocationMarker.showInfoWindow();
-            tvAddressDisplay.setText(address);
-
-        } else {
-            Log.d(MapActivity.class.getSimpleName(), "Current location is null. Using defaults.");
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        }*/
-
 
     }
 
@@ -504,8 +462,8 @@ public class ShowRouteActivity extends BaseActivity implements
                     city = addressList.get(0).getLocality();
                     country = addressList.get(0).getCountryName();
                     state = addressList.get(0).getAdminArea();
-                    this.lattitude = addressList.get(0).getLatitude();
-                    this.longditude = addressList.get(0).getLongitude();
+                    this.latitude = addressList.get(0).getLatitude();
+                    this.longitude = addressList.get(0).getLongitude();
                 }
 
             }
@@ -520,8 +478,7 @@ public class ShowRouteActivity extends BaseActivity implements
 
     }
 
-    private void addMarkerToMap(LatLng location, float markerColor)
-    {
+    private void addMarkerToMap(LatLng location, float markerColor) {
         googleMap.addMarker(new MarkerOptions().position(location));
         options.position(location);
         options.icon(BitmapDescriptorFactory.defaultMarker(markerColor));
@@ -565,8 +522,7 @@ public class ShowRouteActivity extends BaseActivity implements
         return poly;
     }
 
-    private void drawPath(final LatLng source, final LatLng destination)
-    {
+    private void drawPath(final LatLng source, final LatLng destination) {
 
         // Checks, whether start and end locations are captured
         if (source != null) {
@@ -587,8 +543,7 @@ public class ShowRouteActivity extends BaseActivity implements
             call.enqueue(new Callback<RouteExample>() {
                 @Override
                 public void onResponse(Call<RouteExample> call, Response<RouteExample> response) {
-                    if (!response.isSuccessful())
-                    {
+                    if (!response.isSuccessful()) {
                         Log.d("Success Status", "Not Successful");
                         return;
                     }

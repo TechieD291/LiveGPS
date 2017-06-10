@@ -22,6 +22,7 @@
             android:layout_weight="50">
 
             <LinearLayout
+                android:id="@+id/llShowRoute"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/home_page_buttons">
@@ -43,6 +44,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llStreetView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/home_page_buttons">
@@ -64,6 +66,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llPlaceNearByMe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/home_page_buttons">
@@ -95,6 +98,7 @@
             android:layout_weight="50">
 
             <LinearLayout
+                android:id="@+id/llMyLocation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/home_page_buttons">
@@ -116,6 +120,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llPrivacyPolicy"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/home_page_buttons">
@@ -137,6 +142,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llRate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/home_page_buttons">
