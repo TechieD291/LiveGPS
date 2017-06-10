@@ -14,7 +14,12 @@
     <string name="longitude">Longitude</string>
     <string name="source">Source</string>
     <string name="destination">Destination</string>
-
+    <string name="dialog_location_title">Location Service</string>
+    <string name="dialog_location_message">Hey, Your Location is not Enable, please Enable Your Location</string>
+    <string name="dialog_location_nagative_button">Cancel</string>
+    <string name="dialog_location_positive_button">Ok</string>
+    <string name="intestial_ad_unit_id">ca-app-pub-1265462765766610/4874901486</string>
+    <string name="banner_ad_unit_id">ca-app-pub-1265462765766610/3398168280</string>
     <!-- Google Api Key -->
     <string name="google_api_key">AIzaSyBPjNwBNgyZ6pNpORegy-3d_qoLPq3r1-A</string>
 

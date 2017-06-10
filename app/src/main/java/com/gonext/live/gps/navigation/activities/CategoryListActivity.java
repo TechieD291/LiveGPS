@@ -20,6 +20,9 @@ import com.gonext.live.gps.navigation.adpter.CategoryListRecyclerViewAdpter;
 import com.gonext.live.gps.navigation.models.CategoryModelClass;
 import com.gonext.live.gps.navigation.sqllite.SqlLiteDbHelper;
 import com.gonext.live.gps.navigation.utils.view.CustomEditText;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -54,6 +57,7 @@ public class CategoryListActivity extends AppCompatActivity implements CategoryL
     }
 
     private void init() {
+
         Intent intent = getIntent();
         lat = intent.getDoubleExtra("lat", 0.0d) + "";
         lon = intent.getDoubleExtra("lon", 0.0d) + "";

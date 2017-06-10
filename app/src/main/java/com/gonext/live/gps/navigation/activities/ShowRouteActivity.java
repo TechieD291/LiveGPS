@@ -150,7 +150,7 @@ public class ShowRouteActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_route);
         ButterKnife.bind(this);
-
+        loadIntestial();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */,
                         this /* OnConnectionFailedListener */)
@@ -236,6 +236,9 @@ public class ShowRouteActivity extends BaseActivity implements
                     source_dest_flag = source_flag && dest_flag;
 
                     if (source_dest_flag) {
+
+                        llBottom.setVisibility(View.VISIBLE);
+                        ivMap.setVisibility(View.VISIBLE);
                         drawPath(source, destination);
                         builder.include(source);
                         builder.include(destination);
@@ -261,6 +264,9 @@ public class ShowRouteActivity extends BaseActivity implements
                         addMarkerToMap(destination, BitmapDescriptorFactory.HUE_GREEN);
 
                     } else {
+
+                        llBottom.setVisibility(View.GONE);
+                        ivMap.setVisibility(View.GONE);
                         googleMap.clear();
                         tvDestination.setText("");
                         addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
@@ -288,6 +294,7 @@ public class ShowRouteActivity extends BaseActivity implements
 
                     if (source_dest_flag) {
                         llBottom.setVisibility(View.VISIBLE);
+                        ivMap.setVisibility(View.VISIBLE);
                         drawPath(source, destination);
 
                         builder.include(source);
@@ -297,12 +304,14 @@ public class ShowRouteActivity extends BaseActivity implements
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, DEFAULT_ZOOM));
                     } else {
                         llBottom.setVisibility(View.GONE);
+                        ivMap.setVisibility(View.GONE);
                     }
 
                 } else {
                     dest_flag = false;
 
                     llBottom.setVisibility(View.GONE);
+                    ivMap.setVisibility(View.GONE);
                     googleMap.clear();
 
                     addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
@@ -319,6 +328,7 @@ public class ShowRouteActivity extends BaseActivity implements
 
     @Override
     public void onBackPressed() {
+        displayIntestial();
         finish();
     }
 

@@ -69,7 +69,7 @@ public class LocationActivity extends BaseActivity implements LocationListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
         ButterKnife.bind(this);
-
+        loadIntestial();
         if (PermissionUtils.hasPermissions(LocationActivity.this, PERMISSIONS)) {
             buildGoogleApiClient();
 
@@ -277,6 +277,7 @@ public class LocationActivity extends BaseActivity implements LocationListener, 
 
     @Override
     public void onBackPressed() {
+        displayIntestial();
         finish();
     }
 }

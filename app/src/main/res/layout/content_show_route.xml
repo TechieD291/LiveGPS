@@ -66,7 +66,8 @@
                 android:layout_gravity="bottom|right"
                 android:src="@drawable/ic_map_icon"
                 android:layout_marginRight="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"/>
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:visibility="gone"/>
 
         </FrameLayout>
     </LinearLayout>

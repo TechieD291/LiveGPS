@@ -94,7 +94,7 @@ public class StreetViewActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_street_view);
         ButterKnife.bind(this);
-
+        loadIntestial();
         this.savedInstanceState = savedInstanceState;
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -208,6 +208,7 @@ public class StreetViewActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
+        displayIntestial();
         finish();
     }
 
@@ -272,4 +273,5 @@ public class StreetViewActivity extends BaseActivity
             Log.d(TAG, "Play services connection failed");
         }
     }
+
 }

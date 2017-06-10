@@ -1,89 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/wallpaper">
 
+    <RelativeLayout
+        android:id="@+id/rlAds"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/ad_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
+        android:layout_centerInParent="true"
         android:background="@android:color/transparent"
+        android:orientation="vertical"
         android:weightSum="100">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="50"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_large"
-            android:layout_weight="50">
+            android:paddingTop="@dimen/padding_large">
 
             <LinearLayout
                 android:id="@+id/llShowRoute"
+                style="@style/home_page_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/home_page_buttons">
+                android:layout_height="match_parent">
 
-                 <ImageView
+                <ImageView
                     android:id="@+id/ivShowRoute"
+                    style="@style/home_page_button_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_route"
-                     style="@style/home_page_button_imageview"/>
+                    android:src="@drawable/ic_route" />
 
                 <TextView
                     android:id="@+id/tvShowRoute"
+                    style="@style/home_page_button_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/show_route"
-                    style="@style/home_page_button_textview"/>
+                    android:text="@string/show_route" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llStreetView"
+                style="@style/home_page_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/home_page_buttons">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/ivStreetView"
+                    style="@style/home_page_button_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_street"
-                    style="@style/home_page_button_imageview"/>
+                    android:src="@drawable/ic_street" />
 
                 <TextView
                     android:id="@+id/tvStreetView"
+                    style="@style/home_page_button_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/street_view"
-                    style="@style/home_page_button_textview"/>
+                    android:text="@string/street_view" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llPlaceNearByMe"
+                style="@style/home_page_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/home_page_buttons">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/ivPlaceNearByMe"
+                    style="@style/home_page_button_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/nearby_place"
-                    style="@style/home_page_button_imageview"/>
+                    android:src="@drawable/nearby_place" />
 
                 <TextView
                     android:id="@+id/tvPlaceNearByMe"
+                    style="@style/home_page_button_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/place_nearby_me"
-                    style="@style/home_page_button_textview"/>
+                    android:text="@string/place_nearby_me" />
 
             </LinearLayout>
 
@@ -92,74 +109,74 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="50"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_large"
-            android:layout_weight="50">
+            android:paddingTop="@dimen/padding_large">
 
             <LinearLayout
                 android:id="@+id/llMyLocation"
+                style="@style/home_page_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/home_page_buttons">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/ivMyLocation"
+                    style="@style/home_page_button_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/near_by_location"
-                    style="@style/home_page_button_imageview"/>
+                    android:src="@drawable/near_by_location" />
 
                 <TextView
                     android:id="@+id/tvMyLocation"
+                    style="@style/home_page_button_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/my_location"
-                    style="@style/home_page_button_textview"/>
+                    android:text="@string/my_location" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llPrivacyPolicy"
+                style="@style/home_page_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/home_page_buttons">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/ivPrivacyPolicy"
+                    style="@style/home_page_button_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/privacy_policy"
-                    style="@style/home_page_button_imageview"/>
+                    android:src="@drawable/privacy_policy" />
 
                 <TextView
                     android:id="@+id/tvPrivacyPolicy"
+                    style="@style/home_page_button_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/privacy_policy"
-                    style="@style/home_page_button_textview"/>
+                    android:text="@string/privacy_policy" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llRate"
+                style="@style/home_page_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/home_page_buttons">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/ivRate"
+                    style="@style/home_page_button_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_rate"
-                    style="@style/home_page_button_imageview"/>
+                    android:src="@drawable/ic_rate" />
 
                 <TextView
                     android:id="@+id/tvRate"
+                    style="@style/home_page_button_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rate"
-                    style="@style/home_page_button_textview"/>
+                    android:text="@string/rate" />
 
             </LinearLayout>
 
@@ -167,4 +184,4 @@
 
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

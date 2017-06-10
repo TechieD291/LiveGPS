@@ -1,15 +1,22 @@
 package com.gonext.live.gps.navigation.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.gonext.live.gps.navigation.R;
 import com.gonext.live.gps.navigation.sqllite.SqlLiteDbHelper;
+import com.gonext.live.gps.navigation.utils.PopUtils;
 import com.gonext.live.gps.navigation.utils.StaticUtils;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.IOException;
 
@@ -36,6 +43,10 @@ public class MoreOptionsActivity extends BaseActivity {
     @BindView(R.id.llRate)
     LinearLayout llRate;
 
+    @BindView(R.id.ad_view)
+    AdView adView;
+    @BindView(R.id.rlAds)
+    RelativeLayout rlAds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +57,31 @@ public class MoreOptionsActivity extends BaseActivity {
     }
 
     private void init() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                if (rlAds != null) {
+                    rlAds.setVisibility(View.VISIBLE);
+                }
+                super.onAdLoaded();
+
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+            }
+        });
+
         initDatabase();
     }
 
@@ -77,16 +113,81 @@ public class MoreOptionsActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.llShowRoute:
-                senIntent(ShowRouteActivity.class.getName());
+                if (StaticUtils.isLocationEnabled(MoreOptionsActivity.this)) {
+                    senIntent(ShowRouteActivity.class.getName());
+                } else {
+                    PopUtils.showCustomTwoButtonAlertDialog(MoreOptionsActivity.this, getString(R.string.dialog_location_title), getString(R.string.dialog_location_message), getString(R.string.dialog_location_positive_button), getString(R.string.dialog_location_nagative_button), true, false,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                }
+                            }, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                }
                 break;
             case R.id.llStreetView:
-                senIntent(StreetViewActivity.class.getName());
+                if (StaticUtils.isLocationEnabled(MoreOptionsActivity.this)) {
+
+                    senIntent(StreetViewActivity.class.getName());
+                } else {
+                    PopUtils.showCustomTwoButtonAlertDialog(MoreOptionsActivity.this, getString(R.string.dialog_location_title), getString(R.string.dialog_location_message), getString(R.string.dialog_location_positive_button), getString(R.string.dialog_location_nagative_button), true, false,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                }
+                            }, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                }
                 break;
             case R.id.llPlaceNearByMe:
-                senIntent(PlaceNearByMeActivity.class.getName());
+                if (StaticUtils.isLocationEnabled(MoreOptionsActivity.this)) {
+
+                    senIntent(PlaceNearByMeActivity.class.getName());
+                } else {
+                    PopUtils.showCustomTwoButtonAlertDialog(MoreOptionsActivity.this, getString(R.string.dialog_location_title), getString(R.string.dialog_location_message), getString(R.string.dialog_location_positive_button), getString(R.string.dialog_location_nagative_button), true, false,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                }
+                            }, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                }
+
                 break;
             case R.id.llMyLocation:
-                senIntent(LocationActivity.class.getName());
+                if (StaticUtils.isLocationEnabled(MoreOptionsActivity.this)) {
+
+                    senIntent(LocationActivity.class.getName());
+                } else {
+                    PopUtils.showCustomTwoButtonAlertDialog(MoreOptionsActivity.this, getString(R.string.dialog_location_title), getString(R.string.dialog_location_message), getString(R.string.dialog_location_positive_button), getString(R.string.dialog_location_nagative_button), true, false,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                }
+                            }, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                }
+
                 break;
             case R.id.llPrivacyPolicy:
                 senIntent(PrivacyPolicy.class.getName());

@@ -10,9 +10,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.gonext.live.gps.navigation.R;
 import com.gonext.live.gps.navigation.utils.view.CustomTextView;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -45,12 +49,42 @@ public class PlaceNearByMeActivity extends BaseActivity implements LocationListe
     CustomTextView tvNearByMe;
     @BindView(R.id.tvNearByLocation)
     CustomTextView tvNearByLocation;
+    @BindView(R.id.ad_view)
+    AdView adView;
+    @BindView(R.id.rlAds)
+    RelativeLayout rlAds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_near_by_me);
         ButterKnife.bind(this);
+        loadIntestial();
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                if (rlAds != null) {
+                    rlAds.setVisibility(View.VISIBLE);
+                }
+                super.onAdLoaded();
+
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+            }
+        });
+
         buildGoogleApiClient();
     }
 
@@ -187,5 +221,11 @@ public class PlaceNearByMeActivity extends BaseActivity implements LocationListe
 
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        displayIntestial();
+        super.onBackPressed();
     }
 }
