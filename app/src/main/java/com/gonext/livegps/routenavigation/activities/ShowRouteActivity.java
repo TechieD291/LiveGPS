@@ -223,152 +223,6 @@ public class ShowRouteActivity extends BaseActivity implements
         }
     }*/
 
-    /**
-     * Method to decode polyline points
-     */
-    private List decodePoly(String encoded) {
-
-        List poly = new ArrayList();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
-
-        while (index < len) {
-            int b, shift = 0, result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-
-            shift = 0;
-            result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            LatLng p = new LatLng((((double) lat / 1E5)),
-                    (((double) lng / 1E5)));
-            poly.add(p);
-        }
-
-        return poly;
-    }
-
-    private void drawPath(LatLng source, LatLng destination)
-    {
-
-        // Checks, whether start and end locations are captured
-        if (source != null) {
-            hashMap.put("origin", source.latitude + "," + source.longitude);
-            if (destination == null) {
-                hashMap.put("destination", source.latitude + "," + source.longitude);
-            } else {
-                hashMap.put("destination", destination.latitude + "," + destination.longitude);
-            }
-            hashMap.put("mode", mode);
-
-            retrofitMapInterface = ApiUtils.getAPIService();
-
-            Call<RouteExample> call = retrofitMapInterface.getRoute(hashMap);
-
-            Log.e("url requested", call.request().toString());
-
-            call.enqueue(new Callback<RouteExample>() {
-                @Override
-                public void onResponse(Call<RouteExample> call, Response<RouteExample> response) {
-                    if (!response.isSuccessful()) {
-                        Log.d("Success Status", "Not Successful");
-                        return;
-                    }
-
-                    if (!response.body().getStatus().equals("OK")) {
-                        Log.d("Response status", "Error");
-                        if (response.body().getStatus().equals("NOT_FOUND")) {
-                            Toast.makeText(ShowRouteActivity.this, "Route not available", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        if (response.body().getStatus().equals("ZERO_RESULTS")) {
-                            Toast.makeText(ShowRouteActivity.this, "No route using " + mode, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        return;
-                    }
-
-                    ArrayList points = null;
-                    PolylineOptions lineOptions = null;
-
-                    List<Route> routesList = response.body().getRoutes();
-                    List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>();
-
-                    for (int i = 0; i < routesList.size(); i++) {
-                        List<Leg> jLegs = routesList.get(i).getLegs();
-                        List path = new ArrayList<HashMap<String, String>>();
-
-                        for (int j = 0; j < jLegs.size(); j++) {
-                            List<Step> jSteps = jLegs.get(j).getSteps();
-
-                            for (int k = 0; k < jSteps.size(); k++) {
-                                String polyline = "";
-                                polyline = (String) jSteps.get(k).getPolyline().getPoints();
-                                List list = decodePoly(polyline);
-
-
-                                /** Traversing all points */
-                                for (int l = 0; l < list.size(); l++) {
-                                    HashMap<String, String> hm = new HashMap<String, String>();
-                                    hm.put("lat", Double.toString(((LatLng) list.get(l)).latitude));
-                                    hm.put("lng", Double.toString(((LatLng) list.get(l)).longitude));
-                                    path.add(hm);
-                                }
-
-                            }
-                            routes.add(path);
-                        }
-
-                    }
-
-                    for (int p = 0; p < routes.size(); p++) {
-                        points = new ArrayList();
-                        lineOptions = new PolylineOptions();
-
-                        List<HashMap<String, String>> path1 = routes.get(p);
-
-                        for (int j = 0; j < path1.size(); j++) {
-                            HashMap<String, String> point = path1.get(j);
-
-                            double lat = Double.parseDouble(point.get("lat"));
-                            double lng = Double.parseDouble(point.get("lng"));
-                            LatLng position = new LatLng(lat, lng);
-
-                            points.add(position);
-                        }
-
-                        lineOptions.addAll(points);
-                        lineOptions.width(12);
-                        lineOptions.color(Color.RED);
-                        lineOptions.geodesic(true);
-                    }
-
-                    googleMap.addPolyline(lineOptions);
-
-                }
-
-                @Override
-                public void onFailure(Call<RouteExample> call, Throwable t) {
-                    Log.e("Failure status", t.toString());
-                }
-            });
-        }
-
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -635,5 +489,152 @@ public class ShowRouteActivity extends BaseActivity implements
         return final_address;
 
     }
+
+    /**
+     * Method to decode polyline points
+     */
+    private List decodePoly(String encoded) {
+
+        List poly = new ArrayList();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng((((double) lat / 1E5)),
+                    (((double) lng / 1E5)));
+            poly.add(p);
+        }
+
+        return poly;
+    }
+
+    private void drawPath(LatLng source, LatLng destination)
+    {
+
+        // Checks, whether start and end locations are captured
+        if (source != null) {
+            hashMap.put("origin", source.latitude + "," + source.longitude);
+            if (destination == null) {
+                hashMap.put("destination", source.latitude + "," + source.longitude);
+            } else {
+                hashMap.put("destination", destination.latitude + "," + destination.longitude);
+            }
+            hashMap.put("mode", mode);
+
+            retrofitMapInterface = ApiUtils.getAPIService();
+
+            Call<RouteExample> call = retrofitMapInterface.getRoute(hashMap);
+
+            Log.e("url requested", call.request().toString());
+
+            call.enqueue(new Callback<RouteExample>() {
+                @Override
+                public void onResponse(Call<RouteExample> call, Response<RouteExample> response) {
+                    if (!response.isSuccessful()) {
+                        Log.d("Success Status", "Not Successful");
+                        return;
+                    }
+
+                    if (!response.body().getStatus().equals("OK")) {
+                        Log.d("Response status", "Error");
+                        if (response.body().getStatus().equals("NOT_FOUND")) {
+                            Toast.makeText(ShowRouteActivity.this, "Route not available", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (response.body().getStatus().equals("ZERO_RESULTS")) {
+                            Toast.makeText(ShowRouteActivity.this, "No route using " + mode, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        return;
+                    }
+
+                    ArrayList points = null;
+                    PolylineOptions lineOptions = null;
+
+                    List<Route> routesList = response.body().getRoutes();
+                    List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>();
+
+                    for (int i = 0; i < routesList.size(); i++) {
+                        List<Leg> jLegs = routesList.get(i).getLegs();
+                        List path = new ArrayList<HashMap<String, String>>();
+
+                        for (int j = 0; j < jLegs.size(); j++) {
+                            List<Step> jSteps = jLegs.get(j).getSteps();
+
+                            for (int k = 0; k < jSteps.size(); k++) {
+                                String polyline = "";
+                                polyline = (String) jSteps.get(k).getPolyline().getPoints();
+                                List list = decodePoly(polyline);
+
+
+                                /** Traversing all points */
+                                for (int l = 0; l < list.size(); l++) {
+                                    HashMap<String, String> hm = new HashMap<String, String>();
+                                    hm.put("lat", Double.toString(((LatLng) list.get(l)).latitude));
+                                    hm.put("lng", Double.toString(((LatLng) list.get(l)).longitude));
+                                    path.add(hm);
+                                }
+
+                            }
+                            routes.add(path);
+                        }
+
+                    }
+
+                    for (int p = 0; p < routes.size(); p++) {
+                        points = new ArrayList();
+                        lineOptions = new PolylineOptions();
+
+                        List<HashMap<String, String>> path1 = routes.get(p);
+
+                        for (int j = 0; j < path1.size(); j++) {
+                            HashMap<String, String> point = path1.get(j);
+
+                            double lat = Double.parseDouble(point.get("lat"));
+                            double lng = Double.parseDouble(point.get("lng"));
+                            LatLng position = new LatLng(lat, lng);
+
+                            points.add(position);
+                        }
+
+                        lineOptions.addAll(points);
+                        lineOptions.width(12);
+                        lineOptions.color(Color.RED);
+                        lineOptions.geodesic(true);
+                    }
+
+                    googleMap.addPolyline(lineOptions);
+
+                }
+
+                @Override
+                public void onFailure(Call<RouteExample> call, Throwable t) {
+                    Log.e("Failure status", t.toString());
+                }
+            });
+        }
+
+    }
+
 
 }

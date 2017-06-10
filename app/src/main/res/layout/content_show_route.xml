@@ -11,6 +11,7 @@
 
     <LinearLayout
         style="@style/FullScreenTheam"
+        android:layout_above="@id/llBottom"
         android:orientation="vertical"
         android:weightSum="100">
 
@@ -23,7 +24,8 @@
 
                 <com.gonext.livegps.routenavigation.utils.view.CustomTextView
                     android:id="@+id/tvSource"
-                    style="@style/TextviewTheamForRouteScreen" />
+                    style="@style/TextviewTheamForRouteScreen"
+                    android:text="@string/enter_source" />
 
 
             </LinearLayout>
@@ -34,7 +36,8 @@
 
                 <com.gonext.livegps.routenavigation.utils.view.CustomTextView
                     android:id="@+id/tvDestination"
-                    style="@style/TextviewTheamForRouteScreen" />
+                    style="@style/TextviewTheamForRouteScreen"
+                    android:text="@string/enter_destination" />
 
             </LinearLayout>
 
@@ -44,7 +47,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/llBottom">
+            android:layout_weight="25">
 
             <fragment
                 android:id="@+id/map"
@@ -58,6 +61,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -66,7 +70,8 @@
         android:orientation="horizontal"
         android:paddingBottom="@dimen/padding_medium_small"
         android:paddingTop="@dimen/padding_medium_small"
-        android:weightSum="100">
+        android:weightSum="100"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/llCar"
