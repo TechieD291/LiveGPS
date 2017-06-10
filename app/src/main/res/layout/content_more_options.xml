@@ -103,7 +103,7 @@
                     android:id="@+id/ivMyLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/nearby_location"
+                    android:src="@drawable/near_by_location"
                     style="@style/home_page_button_imageview"/>
 
                 <TextView
