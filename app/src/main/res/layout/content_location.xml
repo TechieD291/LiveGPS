@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/FullScreenTheam"
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:showIn="@layout/activity_location">
+
+    <LinearLayout
+        style="@style/FullScreenTheam"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            style="@style/LinearViewTheamForLocationScreenMain"
+            android:layout_weight="70">
+
+            <LinearLayout style="@style/LinearViewTheamForLocationScreen">
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    style="@style/TextviewTheamForLocationScreen"
+                    android:text="@string/latitude" />
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    style="@style/TextviewTheamFordot"
+                    android:layout_marginRight="@dimen/padding_small"
+                    android:text="::" />
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    android:id="@+id/tvLatitude"
+                    style="@style/TextviewTheamForLocationScreen" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearViewTheamForLocationScreen">
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    style="@style/TextviewTheamForLocationScreen"
+                    android:text="@string/longitude" />
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    style="@style/TextviewTheamFordot"
+                    android:layout_marginRight="@dimen/padding_small"
+                    android:text="::" />
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    android:id="@+id/tvLongitude"
+                    style="@style/TextviewTheamForLocationScreen" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/LinearViewTheamForLocationScreenMain"
+            android:layout_weight="50">
+
+            <LinearLayout style="@style/LinearViewTheamForLocationScreen">
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    style="@style/TextviewTheamForLocationScreen"
+                    android:text="@string/address" />
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    style="@style/TextviewTheamFordot"
+                    android:layout_marginRight="@dimen/padding_small"
+                    android:text="::" />
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    android:id="@+id/tvAddress"
+                    style="@style/TextviewTheamForLocationScreen"
+                    android:lines="4" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearViewTheamForLocationScreen">
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    style="@style/TextviewTheamForLocationScreen"
+                    android:text="@string/country" />
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    style="@style/TextviewTheamFordot"
+                    android:layout_marginRight="@dimen/padding_small"
+                    android:text="::" />
+
+                <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+                    android:id="@+id/tvCountry"
+                    style="@style/TextviewTheamForLocationScreen" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/FullScreenTheam"
+            android:layout_weight="85"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/ivShare"
+                style="@style/LocationImageTheam"
+                android:src="@drawable/ic_share" />
+
+            <ImageView
+                android:id="@+id/ivCopy"
+                style="@style/LocationImageTheam"
+                android:src="@drawable/ic_copy" />
+
+            <ImageView
+                android:id="@+id/ivMap"
+                style="@style/LocationImageTheam"
+                android:src="@drawable/ic_map_icon" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

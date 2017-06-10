@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#007700</color>
     <color name="colorAccent">#FF4081</color>
     <color name="zoomBgColor">#f2f2f2</color>
+    <color name="blackTransfarant">#55000000</color>
+
     <color name="white">#ffffff</color>
 </resources>

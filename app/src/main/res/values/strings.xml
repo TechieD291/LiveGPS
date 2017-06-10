@@ -1,6 +1,13 @@
 <resources>
 
     <!--    Titles    -->
+    <string name="latitude">Latitude</string>
+    <string name="address">Address</string>
+    <string name="country">Country</string>
+    <string name="longitude">Longitude</string>
+    <string name="source">Source</string>
+    <string name="destination">Destination</string>
+
     <string name="app_name">Live GPS Navigation</string>
     <string name="title_activity_base">Base</string>
     <string name="title_activity_main">Live GPS Route Navigation</string>
@@ -38,5 +45,6 @@
     <string name="click_here">click here</string>
     <string name="no_internet">Internet not available... Please try again later!!!</string>
     <string name="title_activity_splash">Live GPS Route Navigation</string>
+    <string name="location">Location</string>
 
 </resources>

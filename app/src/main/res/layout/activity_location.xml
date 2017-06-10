@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/FullScreenTheam"
+    android:background="@drawable/wallpaper">
+
+    <RelativeLayout style="@style/ToolbarViewTheam">
+
+        <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+            style="@style/TextviewTheamForToolbar"
+            android:text="@string/location" />
+    </RelativeLayout>
+
+    <include layout="@layout/content_location" />
+
+</android.support.design.widget.CoordinatorLayout>
