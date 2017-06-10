@@ -213,7 +213,7 @@ public class ShowRouteActivity extends BaseActivity implements
         options.position(destination);
         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         googleMap.addMarker(options);
-       // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destination, DEFAULT_ZOOM));
+        // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destination, DEFAULT_ZOOM));
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(source);

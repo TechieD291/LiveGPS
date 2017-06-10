@@ -95,6 +95,21 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="home_page_buttons">
+        <item name="android:layout_marginLeft">@dimen/margin_medium</item>
+        <item name="android:layout_marginRight">@dimen/margin_medium</item>
+        <item name="android:layout_weight">33</item>
+        <item name="android:background">@drawable/options_button_bground</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="home_page_button_textview">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:layout_marginTop">@dimen/margin_small_tiny</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 
     <style name="LinearViewTheamForLocationScreen" parent="LinearViewTheamHomeScreen">
         <item name="android:layout_margin">@dimen/margin_medium</item>
