@@ -38,7 +38,5 @@
     <string name="click_here">click here</string>
     <string name="no_internet">Internet not available... Please try again later!!!</string>
     <string name="title_activity_splash">Live GPS Route Navigation</string>
-    <string name="my_location">My Location</string>
-    <string name="place_nearby_me">Place Nearby Me</string>
 
 </resources>

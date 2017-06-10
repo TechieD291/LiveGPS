@@ -1,5 +1,5 @@
 <resources>
-
+    <dimen name="progress_size">40dp</dimen>
     <!-- Default screen paddings,as per the Android Design guidelines. -->
     <dimen name="padding_tiny">4dp</dimen>
     <dimen name="padding_small_tiny">6dp</dimen>
