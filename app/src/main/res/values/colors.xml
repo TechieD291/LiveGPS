@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008c00</color>
     <color name="colorPrimaryDark">#007700</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#008c00</color>
     <color name="zoomBgColor">#f2f2f2</color>
     <color name="blackTransfarant">#55000000</color>
     <color name="dialog_bg_color">#fff7f7f7</color>

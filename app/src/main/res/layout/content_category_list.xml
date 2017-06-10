@@ -42,6 +42,7 @@
                     android:layout_toLeftOf="@+id/trainlive_img_search"
                     android:hint="Hotel,Restaurant,Attraction"
                     android:singleLine="true"
+                    android:backgroundTint="@android:color/darker_gray"
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/black"
                     android:textSize="18.0sp"
