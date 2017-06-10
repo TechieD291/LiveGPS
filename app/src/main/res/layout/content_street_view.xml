@@ -15,23 +15,13 @@
         android:id="@+id/llStreetView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"
         android:orientation="vertical">
 
         <fragment
             android:id="@+id/streetviewpanorama"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             class="com.google.android.gms.maps.SupportStreetViewPanoramaFragment"/>
-
-        <fragment
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            map:mapType="normal"
-            class="com.google.android.gms.maps.SupportMapFragment"/>
 
     </LinearLayout>
 

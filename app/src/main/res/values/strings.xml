@@ -43,7 +43,6 @@
     <string name="rate">Rate</string>
     <string name="click_here">click here</string>
     <string name="no_internet">Internet not available... Please try again later!!!</string>
-    <string name="title_activity_splash">Live GPS Route Navigation</string>
     <string name="my_location">My Location</string>
     <string name="place_nearby_me">Place Nearby Me</string>
     <string name="location">Location</string>
@@ -53,5 +52,6 @@
     <string name="title_activity_category_list">CategoryListActivity</string>
     <string name="enter_source">Enter Source</string>
     <string name="enter_destination">Enter Destination</string>
+    <string name="title_activity_splash">Live GPS Route Navigation</string>
 
 </resources>
