@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -82,6 +84,8 @@ public class ShowRouteActivity extends BaseActivity implements
     LinearLayout llBicycle;
     @BindView(R.id.llBottom)
     LinearLayout llBottom;
+    @BindView(R.id.ivMap)
+    ImageView ivMap;
 
     private static final String TAG = ShowRouteActivity.class.getSimpleName();
 
@@ -110,8 +114,8 @@ public class ShowRouteActivity extends BaseActivity implements
     private final int DEFAULT_ZOOM = 15;
 
     //String for getAddress method
-    Double lattitude;
-    Double longditude;
+    Double latitude;
+    Double longitude;
 
     String address, city, country, state;
     String strSource = "";
@@ -318,7 +322,7 @@ public class ShowRouteActivity extends BaseActivity implements
         finish();
     }
 
-    @OnClick({R.id.tvSource, R.id.tvDestination, R.id.ibCar, R.id.ibWalk, R.id.ibCycle})
+    @OnClick({R.id.tvSource, R.id.tvDestination, R.id.ibCar, R.id.ibWalk, R.id.ibCycle, R.id.ivMap})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvSource:
@@ -387,6 +391,11 @@ public class ShowRouteActivity extends BaseActivity implements
                 drawPath(source, destination);
 
                 break;
+
+            case R.id.ivMap:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + source.latitude + "," + source.longitude + "&daddr=" + destination.latitude + "," + destination.longitude));
+                startActivity(intent);
+                break;
         }
     }
 
@@ -432,33 +441,6 @@ public class ShowRouteActivity extends BaseActivity implements
 
         }
 
-        /*else if (mLastKnownLocation != null)
-        {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(mLastKnownLocation.getLatitude(),
-                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-
-            String address = getCompleteAddressString(mLastKnownLocation.getLatitude(),
-                    mLastKnownLocation.getLongitude());
-
-            googleMap.clear();
-
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()))
-                    .title(address)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-
-            mCurrLocationMarker = googleMap.addMarker(markerOptions);
-            mCurrLocationMarker.showInfoWindow();
-            tvAddressDisplay.setText(address);
-
-        } else {
-            Log.d(MapActivity.class.getSimpleName(), "Current location is null. Using defaults.");
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        }*/
-
-
     }
 
     /**
@@ -480,8 +462,8 @@ public class ShowRouteActivity extends BaseActivity implements
                     city = addressList.get(0).getLocality();
                     country = addressList.get(0).getCountryName();
                     state = addressList.get(0).getAdminArea();
-                    this.lattitude = addressList.get(0).getLatitude();
-                    this.longditude = addressList.get(0).getLongitude();
+                    this.latitude = addressList.get(0).getLatitude();
+                    this.longitude = addressList.get(0).getLongitude();
                 }
 
             }

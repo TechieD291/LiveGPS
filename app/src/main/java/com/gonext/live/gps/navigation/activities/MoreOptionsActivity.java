@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.gonext.live.gps.navigation.R;
 import com.gonext.live.gps.navigation.sqllite.SqlLiteDbHelper;
@@ -20,21 +20,21 @@ import butterknife.OnClick;
 public class MoreOptionsActivity extends BaseActivity {
 
 
-    @BindView(R.id.ivShowRoute)
-    ImageView ivShowRoute;
-    @BindView(R.id.ivStreetView)
-    ImageView ivStreetView;
-    @BindView(R.id.ivPlaceNearByMe)
-    ImageView ivPlaceNearByMe;
-    @BindView(R.id.ivMyLocation)
-    ImageView ivMyLocation;
-    @BindView(R.id.ivPrivacyPolicy)
-    ImageView ivPrivacyPolicy;
-    @BindView(R.id.ivRate)
-    ImageView ivRate;
     SqlLiteDbHelper dbHelper = new SqlLiteDbHelper(this);
 
     private static final String TAG = MoreOptionsActivity.class.getSimpleName();
+    @BindView(R.id.llShowRoute)
+    LinearLayout llShowRoute;
+    @BindView(R.id.llStreetView)
+    LinearLayout llStreetView;
+    @BindView(R.id.llPlaceNearByMe)
+    LinearLayout llPlaceNearByMe;
+    @BindView(R.id.llMyLocation)
+    LinearLayout llMyLocation;
+    @BindView(R.id.llPrivacyPolicy)
+    LinearLayout llPrivacyPolicy;
+    @BindView(R.id.llRate)
+    LinearLayout llRate;
 
 
     @Override
@@ -73,14 +73,14 @@ public class MoreOptionsActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    @OnClick({R.id.ivShowRoute, R.id.ivStreetView, R.id.ivPlaceNearByMe, R.id.ivMyLocation, R.id.ivPrivacyPolicy, R.id.ivRate})
+    @OnClick({R.id.llShowRoute, R.id.llStreetView, R.id.llPlaceNearByMe, R.id.llMyLocation, R.id.llPrivacyPolicy, R.id.llRate})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivShowRoute:
                 senIntent(ShowRouteActivity.class.getName());
                 break;
             case R.id.ivStreetView:
-
+                senIntent(StreetViewActivity.class.getName());
                 break;
             case R.id.ivPlaceNearByMe:
                 senIntent(PlaceNearByMeActivity.class.getName());
