@@ -128,6 +128,8 @@ public class ShowRouteActivity extends BaseActivity implements
     private LatLng destination = null;
     private LatLng source = null;
 
+    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
     //Retrofit Interface
     private RetrofitMapInterface retrofitMapInterface;
 
@@ -237,8 +239,12 @@ public class ShowRouteActivity extends BaseActivity implements
 
                     if (source_dest_flag)
                     {
-                        googleMap.clear();
                         drawPath(source, destination);
+                        builder.include(source);
+                        builder.include(destination);
+
+                        LatLngBounds bounds = builder.build();
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, DEFAULT_ZOOM));
                     }
                     else
                     {
@@ -329,7 +335,8 @@ public class ShowRouteActivity extends BaseActivity implements
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent backIntent = new Intent(ShowRouteActivity.this, MoreOptionsActivity.class);
+        startActivity(backIntent);
     }
 
     @OnClick({R.id.tvSource, R.id.tvDestination, R.id.ibCar, R.id.ibWalk, R.id.ibCycle})
@@ -423,7 +430,8 @@ public class ShowRouteActivity extends BaseActivity implements
 
         }
 
-        if (mLocationPermissionGranted) {
+        if (mLocationPermissionGranted)
+        {
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(this,
@@ -435,6 +443,10 @@ public class ShowRouteActivity extends BaseActivity implements
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             source = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             googleMap.clear();
+        }
+        else
+        {
+
         }
 
         // Set the map's camera position to the current location of the device.
@@ -508,6 +520,14 @@ public class ShowRouteActivity extends BaseActivity implements
 
     }
 
+    private void addMarkerToMap(LatLng location, float markerColor)
+    {
+        googleMap.addMarker(new MarkerOptions().position(location));
+        options.position(location);
+        options.icon(BitmapDescriptorFactory.defaultMarker(markerColor));
+        googleMap.addMarker(options);
+    }
+
     /**
      * Method to decode polyline points
      */
@@ -545,7 +565,7 @@ public class ShowRouteActivity extends BaseActivity implements
         return poly;
     }
 
-    private void drawPath(LatLng source, LatLng destination)
+    private void drawPath(final LatLng source, final LatLng destination)
     {
 
         // Checks, whether start and end locations are captured
@@ -567,7 +587,8 @@ public class ShowRouteActivity extends BaseActivity implements
             call.enqueue(new Callback<RouteExample>() {
                 @Override
                 public void onResponse(Call<RouteExample> call, Response<RouteExample> response) {
-                    if (!response.isSuccessful()) {
+                    if (!response.isSuccessful())
+                    {
                         Log.d("Success Status", "Not Successful");
                         return;
                     }
@@ -580,11 +601,19 @@ public class ShowRouteActivity extends BaseActivity implements
                         }
 
                         if (response.body().getStatus().equals("ZERO_RESULTS")) {
+
+
                             Toast.makeText(ShowRouteActivity.this, "No route using " + mode, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         return;
                     }
+
+                    googleMap.clear();
+
+                    addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
+                    addMarkerToMap(destination, BitmapDescriptorFactory.HUE_GREEN);
+
 
                     ArrayList points = null;
                     PolylineOptions lineOptions = null;
