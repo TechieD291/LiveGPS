@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1066173500716",
+    "firebase_url": "https://live-gps-navigation-170204.firebaseio.com",
+    "project_id": "live-gps-navigation-170204",
+    "storage_bucket": "live-gps-navigation-170204.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066173500716:android:512b96458d547dda",
+        "android_client_info": {
+          "package_name": "com.gonext.live.gps.navigation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066173500716-li8qo8dp91qep35op5d9rlcbirkaj9ku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnOM5gJl2R_Ee4fiuGMfmq86DMukbZvUY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

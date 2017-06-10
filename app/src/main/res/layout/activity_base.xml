@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gonext.livegps.routenavigation.activities.BaseActivity">
+    tools:context=".activities.BaseActivity">
 
     <include layout="@layout/content_base" />
 

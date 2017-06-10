@@ -4,9 +4,11 @@
     style="@style/FullScreenTheam"
     android:background="@drawable/wallpaper">
 
-    <RelativeLayout style="@style/ToolbarViewTheam">
+    <RelativeLayout
+        style="@style/ToolbarViewTheam"
+        android:background="@color/colorPrimary">
 
-        <com.gonext.livegps.routenavigation.utils.view.CustomTextView
+        <com.gonext.live.gps.navigation.utils.view.CustomTextView
             style="@style/TextviewTheamForToolbar"
             android:text="@string/location" />
     </RelativeLayout>

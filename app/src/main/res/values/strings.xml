@@ -16,7 +16,7 @@
     <string name="destination">Destination</string>
 
     <!-- Google Api Key -->
-    <string name="google_api_key">AIzaSyCGNr3oqZQ_8DHonTswgkg6Qz3UC3cIHaY</string>
+    <string name="google_api_key">AIzaSyBPjNwBNgyZ6pNpORegy-3d_qoLPq3r1-A</string>
 
     <!--    Permissions    -->
     <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Live GPS Route Navigation\'.</string>
@@ -45,7 +45,7 @@
     <string name="no_internet">Internet not available... Please try again later!!!</string>
     <string name="my_location">My Location</string>
     <string name="place_nearby_me">Place Nearby Me</string>
-    <string name="location">Location</string>
+    <string name="location">My Location</string>
     <string name="title_activity_place_near_by_me">PlaceNearByMeActivity</string>
     <string name="near_by_me">Near By Me</string>
     <string name="near_by_location">Near By Location</string>

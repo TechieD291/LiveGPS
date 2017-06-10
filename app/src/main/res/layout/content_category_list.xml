@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.gonext.livegps.routenavigation.activities.CategoryListActivity"
+    tools:context=".activities.CategoryListActivity"
     tools:showIn="@layout/activity_category_list">
 
 
@@ -33,7 +33,7 @@
                 android:visibility="visible"
                 android:weightSum="1.0">
 
-                <com.gonext.livegps.routenavigation.utils.view.CustomEditText
+                <com.gonext.live.gps.navigation.utils.view.CustomEditText
                     android:id="@+id/trainlive_et_trainno"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

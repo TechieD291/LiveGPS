@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             map:mapType="normal"
-            tools:context="com.gonext.livegps.routenavigation.activities.MapActivity"
+            tools:context=".activities.MapActivity"
             tools:showIn="@layout/activity_map" />
 
         <LinearLayout
