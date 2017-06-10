@@ -9,11 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gonext.livegps.routenavigation.R;
 import com.gonext.livegps.routenavigation.utils.view.CustomTextView;
@@ -28,12 +24,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -190,7 +180,7 @@ public class PlaceNearByMeActivity extends BaseActivity implements LocationListe
                     final Place place = PlaceAutocomplete.getPlace(this, data);
                     lattitude = place.getLatLng().latitude;
                     longditude = place.getLatLng().longitude;
-                    sendIntentToCategoryListActivity(lattitude,longditude);
+                    sendIntentToCategoryListActivity(lattitude, longditude);
                     break;
                 }
 

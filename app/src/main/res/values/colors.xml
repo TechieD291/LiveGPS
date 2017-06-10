@@ -11,4 +11,8 @@
     <color name="white">#ffffff</color>
     <color name="dialog_button_text_color">#ff2499fc</color>
     <color name="transperant">#6fffffff</color>
+    <color name="dialog_button_normal_color">#00000000</color>
+    <color name="dialog_button_press_color">#ffe7e7e7</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

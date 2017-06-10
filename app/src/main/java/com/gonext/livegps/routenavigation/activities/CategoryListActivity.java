@@ -2,6 +2,7 @@ package com.gonext.livegps.routenavigation.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +19,6 @@ import com.gonext.livegps.routenavigation.R;
 import com.gonext.livegps.routenavigation.adpter.CategoryListRecyclerViewAdpter;
 import com.gonext.livegps.routenavigation.models.CategoryModelClass;
 import com.gonext.livegps.routenavigation.sqllite.SqlLiteDbHelper;
-import com.gonext.livegps.routenavigation.utils.PopUtils;
-import com.gonext.livegps.routenavigation.utils.StaticUtils;
 import com.gonext.livegps.routenavigation.utils.view.CustomEditText;
 
 import java.util.ArrayList;
@@ -83,7 +82,7 @@ public class CategoryListActivity extends AppCompatActivity implements CategoryL
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!edtSearch.getText().toString().equals("")) {
+                if (!edtSearch.getText().toString().trim().equals("")) {
                     CategoryModelClass categoryModelClass = new CategoryModelClass();
                     categoryModelClass.setCategoryIcon("extras");
                     categoryModelClass.setCategoryName(edtSearch.getText().toString());
@@ -93,7 +92,7 @@ public class CategoryListActivity extends AppCompatActivity implements CategoryL
                     dbHelper.inssertToCategory(edtSearch.getText().toString(), "extras", 1);
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please enter Number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter Name", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -103,27 +102,28 @@ public class CategoryListActivity extends AppCompatActivity implements CategoryL
 
     @Override
     public void onclick(int position) {
-
+        shareToMap(CategoryArrayList.get(position).getCategoryName());
     }
 
     @OnClick({R.id.trainlive_img_search, R.id.fab})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.trainlive_img_search:
-                if (!trainliveEtTrainno.getText().toString().equals("")) {
-                    /*fragment = new CategoryDetailListFragment();
-                    Bundle args = new Bundle();
-                    args.putString("lat", lat);
-                    args.putString("lon", lon);
-                    args.putString("icon", "extras");
-                    args.putString("keyword", trainliveEtTrainno.getText().toString());
-                    fragment.setArguments(args);
-                    replaceFragment(fragment, R.id.framelayout, true, true, false);*/
+                if (!trainliveEtTrainno.getText().toString().trim().equals("")) {
+                    shareToMap(trainliveEtTrainno.getText().toString().trim());
+
                 }
                 break;
             case R.id.fab:
                 dialogOpen();
                 break;
         }
+    }
+
+
+    private void shareToMap(String name) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps/search/" + name + "/@" + lat + "," + lon + " ,15z"));
+        startActivity(intent);
     }
 }
