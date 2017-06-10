@@ -30,8 +30,8 @@
                     android:id="@+id/ivShowRoute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_route" />
+                    android:src="@drawable/ic_route"
+                     style="@style/home_page_button_imageview"/>
 
                 <TextView
                     android:id="@+id/tvShowRoute"
@@ -51,8 +51,8 @@
                     android:id="@+id/ivStreetView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_street" />
+                    android:src="@drawable/ic_street"
+                    style="@style/home_page_button_imageview"/>
 
                 <TextView
                     android:id="@+id/tvStreetView"
@@ -72,8 +72,8 @@
                     android:id="@+id/ivPlaceNearByMe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_street" />
+                    android:src="@drawable/nearby_place"
+                    style="@style/home_page_button_imageview"/>
 
                 <TextView
                     android:id="@+id/tvPlaceNearByMe"
@@ -103,8 +103,8 @@
                     android:id="@+id/ivMyLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_street" />
+                    android:src="@drawable/near_by_location"
+                    style="@style/home_page_button_imageview"/>
 
                 <TextView
                     android:id="@+id/tvMyLocation"
@@ -124,8 +124,8 @@
                     android:id="@+id/ivPrivacyPolicy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_street" />
+                    android:src="@drawable/privacy_policy"
+                    style="@style/home_page_button_imageview"/>
 
                 <TextView
                     android:id="@+id/tvPrivacyPolicy"
@@ -145,8 +145,8 @@
                     android:id="@+id/ivRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_rate" />
+                    android:src="@drawable/ic_rate"
+                    style="@style/home_page_button_imageview"/>
 
                 <TextView
                     android:id="@+id/tvRate"
