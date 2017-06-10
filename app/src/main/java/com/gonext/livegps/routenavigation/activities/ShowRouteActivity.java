@@ -33,6 +33,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,6 +41,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -106,6 +108,8 @@ public class ShowRouteActivity extends BaseActivity implements
     private boolean dest_flag = false;
     private boolean source_dest_flag = false;
 
+    private final int DEFAULT_ZOOM = 15;
+
     //String for getAddress method
     Double lattitude;
     Double longditude;
@@ -124,6 +128,8 @@ public class ShowRouteActivity extends BaseActivity implements
     private LatLng destination = null;
     private LatLng source = null;
 
+    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
     //Retrofit Interface
     private RetrofitMapInterface retrofitMapInterface;
 
@@ -141,11 +147,6 @@ public class ShowRouteActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_route);
         ButterKnife.bind(this);
-
-        getDeviceLocation();
-        strSource = geocoderAddressfind(source.latitude, source.longitude);
-
-        tvSource.setText(strSource);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */,
@@ -189,65 +190,61 @@ public class ShowRouteActivity extends BaseActivity implements
 
         googleMap.clear();
 
+        getDeviceLocation();
+        strSource = geocoderAddressfind(source.latitude, source.longitude);
+        tvSource.setText(strSource);
+
         googleMap.addMarker(new MarkerOptions().position(source));
         options.position(source);
         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         googleMap.addMarker(options);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(source, DEFAULT_ZOOM));
 
-        // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destination, DEFAULT_ZOOM));
-
-        /*LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        builder.include(source);
-        builder.include(destination);
-        LatLngBounds bounds = builder.build();
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
-
-        drawPath(source, destination);*/
     }
-
-   /* @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        mLocationPermissionGranted = false;
-
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
-                } else {
-                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                        mLocationPermissionGranted = false;
-                    }
-                }
-            }
-        }
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case GET_SOURCE_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK)
+                {
                     final Place place = PlaceAutocomplete.getPlace(this, data);
 
                     source = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
                     strSource = geocoderAddressfind(place.getLatLng().latitude, place.getLatLng().longitude);
                     tvSource.setText(strSource);
 
-                    llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    ibCar.setImageResource(R.drawable.ic_car_selected);
+                    googleMap.clear();
 
-                    googleMap.addMarker(new MarkerOptions().position(source));
-                    options.position(source);
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    googleMap.addMarker(options);
+                    if(dest_flag)
+                    {
+                        llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        ibCar.setImageResource(R.drawable.ic_car_selected);
+
+                        googleMap.clear();
+                        addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
+                        addMarkerToMap(destination, BitmapDescriptorFactory.HUE_GREEN);
+
+                    }
+                    else
+                    {
+                        googleMap.clear();
+                        tvDestination.setText("");
+                        addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
+                    }
+
+
 
                     source_dest_flag = source_flag && dest_flag;
 
                     if (source_dest_flag)
                     {
-                        googleMap.clear();
                         drawPath(source, destination);
+                        builder.include(source);
+                        builder.include(destination);
+
+                        LatLngBounds bounds = builder.build();
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, DEFAULT_ZOOM));
                     }
                     else
                     {
@@ -255,21 +252,35 @@ public class ShowRouteActivity extends BaseActivity implements
                     }
 
 
-                } else {
-                    Toast.makeText(this, "No location selected", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
                     getDeviceLocation();
                     strSource = geocoderAddressfind(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
                     tvSource.setText(strSource);
 
-                    googleMap.addMarker(new MarkerOptions().position(source));
-                    options.position(source);
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    googleMap.addMarker(options);
+                    if(dest_flag)
+                    {
+                        llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        ibCar.setImageResource(R.drawable.ic_car_selected);
+
+                        googleMap.clear();
+                        addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
+                        addMarkerToMap(destination, BitmapDescriptorFactory.HUE_GREEN);
+
+                    }
+                    else
+                    {
+                        googleMap.clear();
+                        tvDestination.setText("");
+                        addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
+                    }
 
                 }
                 break;
             case GET_DESTINATION_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK)
+                {
                     dest_flag = true;
 
                     final Place place = PlaceAutocomplete.getPlace(this, data);
@@ -279,10 +290,10 @@ public class ShowRouteActivity extends BaseActivity implements
 
                     tvDestination.setText(strDestination);
 
-                    googleMap.addMarker(new MarkerOptions().position(destination));
-                    options.position(destination);
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    googleMap.addMarker(options);
+                    googleMap.clear();
+
+                    addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
+                    addMarkerToMap(destination, BitmapDescriptorFactory.HUE_GREEN);
 
                     source_dest_flag = source_flag && dest_flag;
 
@@ -290,6 +301,12 @@ public class ShowRouteActivity extends BaseActivity implements
                     {
                         llBottom.setVisibility(View.VISIBLE);
                         drawPath(source, destination);
+
+                        builder.include(source);
+                        builder.include(destination);
+                        LatLngBounds bounds = builder.build();
+
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, DEFAULT_ZOOM));
                     }
                     else
                     {
@@ -297,16 +314,18 @@ public class ShowRouteActivity extends BaseActivity implements
                     }
 
                 }
-                else {
+                else
+                {
                     dest_flag = false;
 
                     llBottom.setVisibility(View.GONE);
                     googleMap.clear();
 
-                    googleMap.addMarker(new MarkerOptions().position(source));
-                    options.position(source);
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    googleMap.addMarker(options);
+                    addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
+
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(source, DEFAULT_ZOOM));
+
+                    tvDestination.setText("");
 
                     Toast.makeText(this, "No location selected", Toast.LENGTH_SHORT).show();
                 }
@@ -361,7 +380,9 @@ public class ShowRouteActivity extends BaseActivity implements
                 ibCar.setImageResource(R.drawable.ic_car_selected);
                 ibCycle.setImageResource(R.drawable.ic_cycle);
                 ibWalk.setImageResource(R.drawable.ic_walk);
+
                 drawPath(source, destination);
+
                 break;
             case R.id.ibWalk:
                 mode = "walking";
@@ -371,7 +392,9 @@ public class ShowRouteActivity extends BaseActivity implements
                 ibWalk.setImageResource(R.drawable.ic_walk_selected);
                 ibCar.setImageResource(R.drawable.ic_car);
                 ibCycle.setImageResource(R.drawable.ic_cycle);
+
                 drawPath(source, destination);
+
                 break;
             case R.id.ibCycle:
                 mode = "bicycling";
@@ -381,7 +404,9 @@ public class ShowRouteActivity extends BaseActivity implements
                 ibCycle.setImageResource(R.drawable.ic_cycle_selected);
                 ibCar.setImageResource(R.drawable.ic_car);
                 ibWalk.setImageResource(R.drawable.ic_walk);
+
                 drawPath(source, destination);
+
                 break;
         }
     }
@@ -405,7 +430,8 @@ public class ShowRouteActivity extends BaseActivity implements
 
         }
 
-        if (mLocationPermissionGranted) {
+        if (mLocationPermissionGranted)
+        {
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(this,
@@ -417,6 +443,10 @@ public class ShowRouteActivity extends BaseActivity implements
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             source = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             googleMap.clear();
+        }
+        else
+        {
+
         }
 
         // Set the map's camera position to the current location of the device.
@@ -490,6 +520,14 @@ public class ShowRouteActivity extends BaseActivity implements
 
     }
 
+    private void addMarkerToMap(LatLng location, float markerColor)
+    {
+        googleMap.addMarker(new MarkerOptions().position(location));
+        options.position(location);
+        options.icon(BitmapDescriptorFactory.defaultMarker(markerColor));
+        googleMap.addMarker(options);
+    }
+
     /**
      * Method to decode polyline points
      */
@@ -527,7 +565,7 @@ public class ShowRouteActivity extends BaseActivity implements
         return poly;
     }
 
-    private void drawPath(LatLng source, LatLng destination)
+    private void drawPath(final LatLng source, final LatLng destination)
     {
 
         // Checks, whether start and end locations are captured
@@ -549,7 +587,8 @@ public class ShowRouteActivity extends BaseActivity implements
             call.enqueue(new Callback<RouteExample>() {
                 @Override
                 public void onResponse(Call<RouteExample> call, Response<RouteExample> response) {
-                    if (!response.isSuccessful()) {
+                    if (!response.isSuccessful())
+                    {
                         Log.d("Success Status", "Not Successful");
                         return;
                     }
@@ -562,11 +601,19 @@ public class ShowRouteActivity extends BaseActivity implements
                         }
 
                         if (response.body().getStatus().equals("ZERO_RESULTS")) {
+
+
                             Toast.makeText(ShowRouteActivity.this, "No route using " + mode, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         return;
                     }
+
+                    googleMap.clear();
+
+                    addMarkerToMap(source, BitmapDescriptorFactory.HUE_RED);
+                    addMarkerToMap(destination, BitmapDescriptorFactory.HUE_GREEN);
+
 
                     ArrayList points = null;
                     PolylineOptions lineOptions = null;
