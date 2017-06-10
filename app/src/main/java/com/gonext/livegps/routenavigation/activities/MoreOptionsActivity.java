@@ -20,9 +20,6 @@ import butterknife.OnClick;
 public class MoreOptionsActivity extends BaseActivity {
 
 
-    private static final String TAG = MoreOptionsActivity.class.getSimpleName();
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
     @BindView(R.id.ivShowRoute)
     ImageView ivShowRoute;
     @BindView(R.id.ivStreetView)
@@ -36,10 +33,8 @@ public class MoreOptionsActivity extends BaseActivity {
     @BindView(R.id.ivRate)
     ImageView ivRate;
 
-    private double source_lat, source_lng;
-    private double dest_lat, dest_lng;
-    private String address = "";
-    private boolean flag;
+    private static final String TAG = MoreOptionsActivity.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,70 +42,34 @@ public class MoreOptionsActivity extends BaseActivity {
         setContentView(R.layout.activity_more_options);
         ButterKnife.bind(this);
 
-        Intent i = getIntent();
-        source_lat = i.getDoubleExtra("source_Latitude", 0.0);
-        source_lng = i.getDoubleExtra("source_Longitude", 0.0);
-
-        Log.d("Source Loc options", source_lat + "," + source_lng);
-
-        dest_lat = i.getDoubleExtra("dest_Latitude", 0.0);
-        dest_lng = i.getDoubleExtra("dest_Longitude", 0.0);
-
-        Log.d("Destination Loc options", dest_lat + "," + dest_lng);
-
-        address = i.getStringExtra("title");
-        flag = i.getBooleanExtra("place_selection", false);
-
     }
 
-    @OnClick({R.id.ivShowRoute, R.id.ivStreetView, R.id.ivBack, R.id.ivRate})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
+
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+    }
+
+    @OnClick({R.id.ivShowRoute, R.id.ivStreetView, R.id.ivPlaceNearByMe, R.id.ivMyLocation, R.id.ivPrivacyPolicy, R.id.ivRate})
+    public void onViewClicked(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.ivShowRoute:
-
-                Intent showRoute = new Intent(MoreOptionsActivity.this, ShowRouteActivity.class);
-                showRoute.putExtra("source_Latitude", source_lat);
-                showRoute.putExtra("source_Longitude", source_lng);
-
-                showRoute.putExtra("dest_Latitude", dest_lat);
-                showRoute.putExtra("dest_Longitude", dest_lng);
-
-                startActivity(showRoute);
+                Intent showRouteIntent = new Intent(MoreOptionsActivity.this, ShowRouteActivity.class);
+                startActivity(showRouteIntent);
                 break;
-
             case R.id.ivStreetView:
-
-                Intent streetView = new Intent(MoreOptionsActivity.this, StreetViewActivity.class);
-
-                if (flag == false) {
-                    streetView.putExtra("source_Latitude", source_lat);
-                    streetView.putExtra("source_Longitude", source_lng);
-                } else {
-                    streetView.putExtra("source_Latitude", dest_lat);
-                    streetView.putExtra("source_Longitude", dest_lng);
-                }
-
-                startActivity(streetView);
-
                 break;
-
+            case R.id.ivPlaceNearByMe:
+                break;
+            case R.id.ivMyLocation:
+                break;
+            case R.id.ivPrivacyPolicy:
+                break;
             case R.id.ivRate:
-                break;
-
-            case R.id.ivBack:
-                Intent backIntent = new Intent(MoreOptionsActivity.this, MapActivity.class);
-                startActivity(backIntent);
                 break;
         }
     }
-
-    @Override
-    public void onBackPressed() {
-        Intent backIntent = new Intent(MoreOptionsActivity.this, MapActivity.class);
-        backIntent.putExtra("tag", TAG);
-        backIntent.putExtra("lat", dest_lat + "");
-        backIntent.putExtra("lng", dest_lng + "");
-        startActivity(backIntent);
-    }
-
 }

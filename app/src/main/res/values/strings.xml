@@ -47,5 +47,9 @@
     <string name="my_location">My Location</string>
     <string name="place_nearby_me">Place Nearby Me</string>
     <string name="location">Location</string>
+    <string name="title_activity_place_near_by_me">PlaceNearByMeActivity</string>
+    <string name="near_by_me">Near By Me</string>
+    <string name="near_by_location">Near By Location</string>
+    <string name="title_activity_category_list">CategoryListActivity</string>
 
 </resources>

@@ -558,19 +558,7 @@ public class MapActivity extends BaseActivity implements
         switch (view.getId()) {
             case R.id.ibSearch:
 
-                try {
-                    Intent intent =
-                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-                                    .build(this);
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                    // Refer to the reference doc for ConnectionResult to see what error codes might
-                    // be returned in onConnectionFailed.
-                    Log.d(TAG, "Play services connection failed");
-                }
+
 
                 break;
             case R.id.ibMenu:

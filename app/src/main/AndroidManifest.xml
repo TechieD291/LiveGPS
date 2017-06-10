@@ -41,9 +41,7 @@
             android:name=".activities.MapActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MoreOptionsActivity"
             android:label="@string/title_activity_more_options"
@@ -66,6 +64,14 @@
             android:label="@string/title_activity_street_view"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.PlaceNearByMeActivity"
+            android:label="@string/title_activity_place_near_by_me"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.CategoryListActivity"
+            android:label="@string/title_activity_category_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,13 @@
     <color name="colorAccent">#FF4081</color>
     <color name="zoomBgColor">#f2f2f2</color>
     <color name="blackTransfarant">#55000000</color>
-
+    <color name="dialog_bg_color">#fff7f7f7</color>
+    <color name="dialog_header_color">#ff212121</color>
+    <color name="dialog_message_color">#ff5b5b5b</color>
     <color name="white">#ffffff</color>
+    <color name="dialog_button_text_color">#ff2499fc</color>
+    <color name="transperant">#6fffffff</color>
+    <color name="dialog_button_normal_color">#00000000</color>
+    <color name="dialog_button_press_color">#ffe7e7e7</color>
+    <color name="transparent">#00000000</color>
 </resources>
