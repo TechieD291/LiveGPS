@@ -9,40 +9,32 @@ import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.gonext.livegps.routenavigation.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.gonext.livegps.routenavigation.R;
 
 public class MoreOptionsActivity extends BaseActivity {
 
-    @BindView(R.id.ivShowRoute)
-    ImageView ivShowRoute;
-    @BindView(R.id.tvShowRoute)
-    TextView tvShowRoute;
-    @BindView(R.id.ivDirections)
-    ImageView ivDirections;
-    @BindView(R.id.tvDirections)
-    TextView tvDirections;
-    @BindView(R.id.ivStreetView)
-    ImageView ivStreetView;
-    @BindView(R.id.tvStreetView)
-    TextView tvStreetView;
-    @BindView(R.id.ivShareLocation)
-    ImageView ivShareLocation;
-    @BindView(R.id.tvShareLocation)
-    TextView tvShareLocation;
-    @BindView(R.id.ivCopyLocation)
-    ImageView ivCopyLocation;
-    @BindView(R.id.ivRate)
-    ImageView ivRate;
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
 
     private static final String TAG = MoreOptionsActivity.class.getSimpleName();
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+    @BindView(R.id.ivShowRoute)
+    ImageView ivShowRoute;
+    @BindView(R.id.ivStreetView)
+    ImageView ivStreetView;
+    @BindView(R.id.ivPlaceNearByMe)
+    ImageView ivPlaceNearByMe;
+    @BindView(R.id.ivMyLocation)
+    ImageView ivMyLocation;
+    @BindView(R.id.ivPrivacyPolicy)
+    ImageView ivPrivacyPolicy;
+    @BindView(R.id.ivRate)
+    ImageView ivRate;
 
     private double source_lat, source_lng;
     private double dest_lat, dest_lng;
@@ -71,7 +63,7 @@ public class MoreOptionsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ivShowRoute, R.id.ivDirections, R.id.ivStreetView, R.id.ivShareLocation, R.id.ivCopyLocation, R.id.ivBack, R.id.ivRate})
+    @OnClick({R.id.ivShowRoute, R.id.ivStreetView, R.id.ivBack, R.id.ivRate})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivShowRoute:
@@ -85,13 +77,7 @@ public class MoreOptionsActivity extends BaseActivity {
 
                 startActivity(showRoute);
                 break;
-            case R.id.ivDirections:
 
-                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + source_lat + "," + source_lng + "&daddr=" + dest_lat + "," + dest_lng));
-                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-                startActivity(intent);
-
-                break;
             case R.id.ivStreetView:
 
                 Intent streetView = new Intent(MoreOptionsActivity.this, StreetViewActivity.class);
@@ -107,32 +93,7 @@ public class MoreOptionsActivity extends BaseActivity {
                 startActivity(streetView);
 
                 break;
-            case R.id.ivShareLocation:
 
-                String location = "http://maps.google.com/maps?q=" + source_lat + "," + source_lng + "\n" + address;
-
-                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, location);
-                startActivity(Intent.createChooser(sharingIntent, "Location"));
-
-                break;
-            case R.id.ivCopyLocation:
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-                    ClipboardManager clipboard = (ClipboardManager)
-                            this.getSystemService(this.CLIPBOARD_SERVICE);
-                    clipboard.setText(address);
-                } else {
-                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
-                            this.getSystemService(this.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData
-                            .newPlainText("Copied to clipboard", address);
-                    clipboard.setPrimaryClip(clip);
-                }
-
-                Toast.makeText(this, "Location copied to clipboard", Toast.LENGTH_SHORT).show();
-
-                break;
             case R.id.ivRate:
                 break;
 
@@ -144,12 +105,11 @@ public class MoreOptionsActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         Intent backIntent = new Intent(MoreOptionsActivity.this, MapActivity.class);
-        backIntent.putExtra("tag",TAG);
-        backIntent.putExtra("lat",dest_lat+"");
-        backIntent.putExtra("lng",dest_lng+"");
+        backIntent.putExtra("tag", TAG);
+        backIntent.putExtra("lat", dest_lat + "");
+        backIntent.putExtra("lng", dest_lng + "");
         startActivity(backIntent);
     }
 

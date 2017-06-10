@@ -5,121 +5,28 @@
     android:layout_height="match_parent"
     android:background="@drawable/wallpaper">
 
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:background="@android:color/transparent"
-        android:weightSum="100">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_large"
-            android:layout_weight="50">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/options_button_bground"
-                android:layout_weight="33">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/options_button_bground"
-                android:layout_weight="33">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/options_button_bground"
-                android:layout_weight="33">
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_large"
-            android:layout_weight="50">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/options_button_bground"
-                android:layout_weight="33">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/options_button_bground"
-                android:layout_weight="33">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/options_button_bground"
-                android:layout_weight="33">
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>-->
-
     <LinearLayout
-        android:id="@+id/llBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@android:color/transparent"
         android:orientation="vertical"
+        android:background="@android:color/transparent"
         android:weightSum="100">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="50"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/padding_large"
             android:paddingTop="@dimen/padding_large"
-            android:weightSum="100">
+            android:layout_weight="50">
 
             <LinearLayout
-                android:id="@+id/llShowRoute"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="33"
-                android:background="@drawable/options_button_bground"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/margin_medium_large"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:paddingBottom="@dimen/padding_medium_small"
-                android:paddingTop="@dimen/padding_medium_small">
+                style="@style/home_page_buttons">
 
-                <ImageView
+                 <ImageView
                     android:id="@+id/ivShowRoute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,55 +37,15 @@
                     android:id="@+id/tvShowRoute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_small_tiny"
                     android:text="@string/show_route"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_large"/>
+                    style="@style/home_page_button_textview"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llDirections"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="33"
-                android:background="@drawable/options_button_bground"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/padding_medium_small"
-                android:paddingTop="@dimen/padding_medium_small">
-
-                <ImageView
-                    android:id="@+id/ivDirections"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_direction" />
-
-                <TextView
-                    android:id="@+id/tvDirections"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_small_tiny"
-                    android:text="@string/directions"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_large"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llStreetView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="33"
-                android:background="@drawable/options_button_bground"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium_large"
-                android:paddingBottom="@dimen/padding_medium_small"
-                android:paddingTop="@dimen/padding_medium_small">
+                style="@style/home_page_buttons">
 
                 <ImageView
                     android:id="@+id/ivStreetView"
@@ -191,11 +58,29 @@
                     android:id="@+id/tvStreetView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_small_tiny"
                     android:text="@string/street_view"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_large"/>
+                    style="@style/home_page_button_textview"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/home_page_buttons">
+
+                <ImageView
+                    android:id="@+id/ivPlaceNearByMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_street" />
+
+                <TextView
+                    android:id="@+id/tvPlaceNearByMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/place_nearby_me"
+                    style="@style/home_page_button_textview"/>
 
             </LinearLayout>
 
@@ -204,83 +89,57 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="50"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/padding_large"
             android:paddingTop="@dimen/padding_large"
-            android:weightSum="100">
+            android:layout_weight="50">
 
             <LinearLayout
-                android:id="@+id/llShareLocation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="33"
-                android:background="@drawable/options_button_bground"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/margin_medium_large"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:paddingBottom="@dimen/padding_medium_small"
-                android:paddingTop="@dimen/padding_medium_small">
+                style="@style/home_page_buttons">
 
                 <ImageView
-                    android:id="@+id/ivShareLocation"
+                    android:id="@+id/ivMyLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_share" />
+                    android:src="@drawable/ic_street" />
 
                 <TextView
-                    android:id="@+id/tvShareLocation"
+                    android:id="@+id/tvMyLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/margin_small_tiny"
-                    android:text="@string/share_location"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_large"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llCopyLocation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="33"
-                android:background="@drawable/options_button_bground"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/padding_medium_small"
-                android:paddingTop="@dimen/padding_medium_small">
-
-                <ImageView
-                    android:id="@+id/ivCopyLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_copy" />
-
-                <TextView
-                    android:id="@+id/tvCopyLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_small_tiny"
-                    android:text="@string/copy_location"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_large"/>
+                    android:text="@string/my_location"
+                    style="@style/home_page_button_textview"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="33"
-                android:background="@drawable/options_button_bground"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium_large"
-                android:paddingBottom="@dimen/padding_medium_small"
-                android:paddingTop="@dimen/padding_medium_small">
+                style="@style/home_page_buttons">
+
+                <ImageView
+                    android:id="@+id/ivPrivacyPolicy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_street" />
+
+                <TextView
+                    android:id="@+id/tvPrivacyPolicy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_policy"
+                    style="@style/home_page_button_textview"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/home_page_buttons">
 
                 <ImageView
                     android:id="@+id/ivRate"
@@ -293,11 +152,8 @@
                     android:id="@+id/tvRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_small_tiny"
                     android:text="@string/rate"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_large"/>
+                    style="@style/home_page_button_textview"/>
 
             </LinearLayout>
 
