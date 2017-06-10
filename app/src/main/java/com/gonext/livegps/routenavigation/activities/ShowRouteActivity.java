@@ -4,9 +4,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,23 +24,30 @@ import com.gonext.livegps.routenavigation.models.Route;
 import com.gonext.livegps.routenavigation.models.RouteExample;
 import com.gonext.livegps.routenavigation.models.Step;
 import com.gonext.livegps.routenavigation.utils.ApiUtils;
+import com.gonext.livegps.routenavigation.utils.view.CustomTextView;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,36 +56,63 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.gonext.livegps.routenavigation.utils.Utils.hasPermissions;
+
 public class ShowRouteActivity extends BaseActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    @BindView(R.id.tvSource)
+    CustomTextView tvSource;
+    @BindView(R.id.tvDestination)
+    CustomTextView tvDestination;
     @BindView(R.id.ibCar)
     ImageButton ibCar;
-    @BindView(R.id.ibWalk)
-    ImageButton ibWalk;
-    @BindView(R.id.ibCycle)
-    ImageButton ibCycle;
     @BindView(R.id.llCar)
     LinearLayout llCar;
+    @BindView(R.id.ibWalk)
+    ImageButton ibWalk;
     @BindView(R.id.llWalk)
     LinearLayout llWalk;
+    @BindView(R.id.ibCycle)
+    ImageButton ibCycle;
     @BindView(R.id.llBicycle)
     LinearLayout llBicycle;
+    @BindView(R.id.llBottom)
+    LinearLayout llBottom;
 
     private static final String TAG = ShowRouteActivity.class.getSimpleName();
 
     // Check Permissions Now
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    private static final int DEFAULT_ZOOM = 15;
+    //Get Source Request Code
+    private static final int GET_SOURCE_REQUEST_CODE = 2;
+
+    //Get Destination Request Code
+    private static final int GET_DESTINATION_REQUEST_CODE = 3;
 
     private boolean mLocationPermissionGranted;
 
     // The entry point to Google Play services, used by the Places API and Fused Location Provider.
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap googleMap;
+
+    private Location mCurrentLocation;
+    private CameraPosition mCameraPosition;
+
+    private boolean source_flag = true;
+    private boolean dest_flag = false;
+    private boolean source_dest_flag = false;
+
+    //String for getAddress method
+    Double lattitude;
+    Double longditude;
+
+    String address, city, country, state;
+    String strSource = "";
+    String strDestination = "";
 
     // Creating MarkerOptions
     MarkerOptions options = new MarkerOptions();
@@ -83,8 +121,6 @@ public class ShowRouteActivity extends BaseActivity implements
     HashMap<String, String> hashMap = new HashMap<>();
     String mode = "driving";
 
-    private double source_lat, source_lng;
-    private double dest_lat, dest_lng;
     private LatLng destination = null;
     private LatLng source = null;
 
@@ -106,8 +142,10 @@ public class ShowRouteActivity extends BaseActivity implements
         setContentView(R.layout.activity_show_route);
         ButterKnife.bind(this);
 
-        llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        ibCar.setImageResource(R.drawable.ic_car_selected);
+        getDeviceLocation();
+        strSource = geocoderAddressfind(source.latitude, source.longitude);
+
+        tvSource.setText(strSource);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */,
@@ -120,54 +158,6 @@ public class ShowRouteActivity extends BaseActivity implements
 
         mGoogleApiClient.connect();
 
-        Intent i = getIntent();
-
-        source_lat = i.getDoubleExtra("source_Latitude", 0.0);
-        source_lng = i.getDoubleExtra("source_Longitude", 0.0);
-
-        Log.d("Source Loc route", source_lat + "," + source_lng);
-
-        dest_lat = i.getDoubleExtra("dest_Latitude", 0.0);
-        dest_lng = i.getDoubleExtra("dest_Longitude", 0.0);
-
-        Log.d("Destination Loc route", dest_lat + "," + dest_lng);
-
-    }
-
-    @OnClick({R.id.ibCar, R.id.ibWalk, R.id.ibCycle})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.ibCar:
-                mode = "driving";
-                llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                llWalk.setBackgroundColor(Color.WHITE);
-                llBicycle.setBackgroundColor(Color.WHITE);
-                ibCar.setImageResource(R.drawable.ic_car_selected);
-                ibCycle.setImageResource(R.drawable.ic_cycle);
-                ibWalk.setImageResource(R.drawable.ic_walk);
-                drawPath(source, destination);
-                break;
-            case R.id.ibWalk:
-                mode = "walking";
-                llWalk.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                llCar.setBackgroundColor(Color.WHITE);
-                llBicycle.setBackgroundColor(Color.WHITE);
-                ibWalk.setImageResource(R.drawable.ic_walk_selected);
-                ibCar.setImageResource(R.drawable.ic_car);
-                ibCycle.setImageResource(R.drawable.ic_cycle);
-                drawPath(source, destination);
-                break;
-            case R.id.ibCycle:
-                mode = "bicycling";
-                llBicycle.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                llCar.setBackgroundColor(Color.WHITE);
-                llWalk.setBackgroundColor(Color.WHITE);
-                ibCycle.setImageResource(R.drawable.ic_cycle_selected);
-                ibCar.setImageResource(R.drawable.ic_car);
-                ibWalk.setImageResource(R.drawable.ic_walk);
-                drawPath(source, destination);
-                break;
-        }
     }
 
     @Override
@@ -197,34 +187,25 @@ public class ShowRouteActivity extends BaseActivity implements
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
 
-        source = new LatLng(source_lat, source_lng);
-        destination = new LatLng(dest_lat, dest_lng);
-
         googleMap.clear();
 
         googleMap.addMarker(new MarkerOptions().position(source));
-        markerPoints.add(source);
         options.position(source);
         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         googleMap.addMarker(options);
 
-        googleMap.addMarker(new MarkerOptions().position(destination));
-        markerPoints.add(destination);
-        options.position(destination);
-        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        googleMap.addMarker(options);
         // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destination, DEFAULT_ZOOM));
 
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        /*LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(source);
         builder.include(destination);
         LatLngBounds bounds = builder.build();
         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
 
-        drawPath(source, destination);
+        drawPath(source, destination);*/
     }
 
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         mLocationPermissionGranted = false;
 
@@ -240,7 +221,7 @@ public class ShowRouteActivity extends BaseActivity implements
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Method to decode polyline points
@@ -279,7 +260,8 @@ public class ShowRouteActivity extends BaseActivity implements
         return poly;
     }
 
-    private void drawPath(LatLng source, LatLng destination) {
+    private void drawPath(LatLng source, LatLng destination)
+    {
 
         // Checks, whether start and end locations are captured
         if (source != null) {
@@ -388,8 +370,270 @@ public class ShowRouteActivity extends BaseActivity implements
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case GET_SOURCE_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    final Place place = PlaceAutocomplete.getPlace(this, data);
+
+                    source = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+                    strSource = geocoderAddressfind(place.getLatLng().latitude, place.getLatLng().longitude);
+                    tvSource.setText(strSource);
+
+                    llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    ibCar.setImageResource(R.drawable.ic_car_selected);
+
+                    googleMap.addMarker(new MarkerOptions().position(source));
+                    options.position(source);
+                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    googleMap.addMarker(options);
+
+                    source_dest_flag = source_flag && dest_flag;
+
+                    if (source_dest_flag)
+                    {
+                        googleMap.clear();
+                        drawPath(source, destination);
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Please select destination...", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } else {
+                    Toast.makeText(this, "No location selected", Toast.LENGTH_SHORT).show();
+                    getDeviceLocation();
+                    strSource = geocoderAddressfind(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                    tvSource.setText(strSource);
+
+                    googleMap.addMarker(new MarkerOptions().position(source));
+                    options.position(source);
+                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    googleMap.addMarker(options);
+
+                }
+                break;
+            case GET_DESTINATION_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    dest_flag = true;
+
+                    final Place place = PlaceAutocomplete.getPlace(this, data);
+
+                    destination = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+                    strDestination = geocoderAddressfind(place.getLatLng().latitude, place.getLatLng().longitude);
+
+                    tvDestination.setText(strDestination);
+
+                    googleMap.addMarker(new MarkerOptions().position(destination));
+                    options.position(destination);
+                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    googleMap.addMarker(options);
+
+                    source_dest_flag = source_flag && dest_flag;
+
+                    if (source_dest_flag)
+                    {
+                        llBottom.setVisibility(View.VISIBLE);
+                        drawPath(source, destination);
+                    }
+                    else
+                    {
+                        llBottom.setVisibility(View.GONE);
+                    }
+
+                }
+                else {
+                    dest_flag = false;
+
+                    llBottom.setVisibility(View.GONE);
+                    googleMap.clear();
+
+                    googleMap.addMarker(new MarkerOptions().position(source));
+                    options.position(source);
+                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    googleMap.addMarker(options);
+
+                    Toast.makeText(this, "No location selected", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         Intent backIntent = new Intent(ShowRouteActivity.this, MoreOptionsActivity.class);
         startActivity(backIntent);
     }
+
+    @OnClick({R.id.tvSource, R.id.tvDestination, R.id.ibCar, R.id.ibWalk, R.id.ibCycle})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tvSource:
+                try {
+                    Intent intent =
+                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                    .build(this);
+                    startActivityForResult(intent, GET_SOURCE_REQUEST_CODE);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                    // Refer to the reference doc for ConnectionResult to see what error codes might
+                    // be returned in onConnectionFailed.
+                    Log.d(TAG, "Play services connection failed");
+                }
+                break;
+            case R.id.tvDestination:
+                try {
+                    Intent intent =
+                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                    .build(this);
+                    startActivityForResult(intent, GET_DESTINATION_REQUEST_CODE);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                    // Refer to the reference doc for ConnectionResult to see what error codes might
+                    // be returned in onConnectionFailed.
+                    Log.d(TAG, "Play services connection failed");
+                }
+                break;
+            case R.id.ibCar:
+                mode = "driving";
+                llCar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                llWalk.setBackgroundColor(Color.WHITE);
+                llBicycle.setBackgroundColor(Color.WHITE);
+                ibCar.setImageResource(R.drawable.ic_car_selected);
+                ibCycle.setImageResource(R.drawable.ic_cycle);
+                ibWalk.setImageResource(R.drawable.ic_walk);
+                drawPath(source, destination);
+                break;
+            case R.id.ibWalk:
+                mode = "walking";
+                llWalk.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                llCar.setBackgroundColor(Color.WHITE);
+                llBicycle.setBackgroundColor(Color.WHITE);
+                ibWalk.setImageResource(R.drawable.ic_walk_selected);
+                ibCar.setImageResource(R.drawable.ic_car);
+                ibCycle.setImageResource(R.drawable.ic_cycle);
+                drawPath(source, destination);
+                break;
+            case R.id.ibCycle:
+                mode = "bicycling";
+                llBicycle.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                llCar.setBackgroundColor(Color.WHITE);
+                llWalk.setBackgroundColor(Color.WHITE);
+                ibCycle.setImageResource(R.drawable.ic_cycle_selected);
+                ibCar.setImageResource(R.drawable.ic_car);
+                ibWalk.setImageResource(R.drawable.ic_walk);
+                drawPath(source, destination);
+                break;
+        }
+    }
+
+    /**
+     * Gets the current location of the device, and positions the map's camera.
+     */
+    private void getDeviceLocation() {
+
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+
+        if (!hasPermissions(ShowRouteActivity.this, PERMISSIONS)) {
+            mLocationPermissionGranted = false;
+            ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            mLocationPermissionGranted = true;
+
+        }
+
+        if (mLocationPermissionGranted) {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+
+            mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            source = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+            googleMap.clear();
+        }
+
+        // Set the map's camera position to the current location of the device.
+        if (mCameraPosition != null) {
+
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+
+        }
+
+        /*else if (mLastKnownLocation != null)
+        {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(mLastKnownLocation.getLatitude(),
+                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+            String address = getCompleteAddressString(mLastKnownLocation.getLatitude(),
+                    mLastKnownLocation.getLongitude());
+
+            googleMap.clear();
+
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()))
+                    .title(address)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+            mCurrLocationMarker = googleMap.addMarker(markerOptions);
+            mCurrLocationMarker.showInfoWindow();
+            tvAddressDisplay.setText(address);
+
+        } else {
+            Log.d(MapActivity.class.getSimpleName(), "Current location is null. Using defaults.");
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        }*/
+
+
+    }
+
+    /**
+     * @param lattitude  Double latitude value
+     * @param longditude Double longitude value
+     * @return Address with city, state and country also saves latitude in lat variable and longitude in lng variable
+     */
+    private String geocoderAddressfind(Double lattitude, Double longditude) {
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        String final_address = "";
+
+        try {
+            List<Address> addressList = geocoder.getFromLocation(lattitude, longditude, 1);
+            if (addressList != null && addressList.size() > 0) {
+                for (int i = 0; i < addressList.get(0).getMaxAddressLineIndex(); i++) {
+                    address = addressList.get(0).getAddressLine(1);
+                    city = addressList.get(0).getLocality();
+                    country = addressList.get(0).getCountryName();
+                    state = addressList.get(0).getAdminArea();
+                    this.lattitude = addressList.get(0).getLatitude();
+                    this.longditude = addressList.get(0).getLongitude();
+                }
+
+            }
+
+            final_address = address + " " + city + "," + state + "," + country;
+
+        } catch (IOException ioException) {
+            ioException.getStackTrace();
+        }
+
+        return final_address;
+
+    }
+
 }

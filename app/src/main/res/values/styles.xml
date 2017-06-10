@@ -109,6 +109,13 @@
         <item name="android:layout_marginTop">@dimen/margin_small_tiny</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
+    </style>
+
+    <style name="home_page_button_imageview">
+        <item name="android:layout_marginTop">@dimen/margin_small_tiny</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="LinearViewTheamForLocationScreen" parent="LinearViewTheamHomeScreen">
